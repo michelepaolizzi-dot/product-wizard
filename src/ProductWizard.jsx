@@ -578,6 +578,8 @@ const ProductWizard = () => {
       : 3;
   const progress = Math.min((step / maxSteps) * 100, 100);
 
+  // ... (Tutto il codice precedente rimane uguale fino al return)
+
   return (
     <div className="wizard-card">
       <div className="wizard-header">
@@ -634,10 +636,13 @@ const ProductWizard = () => {
                   </button>
                 </div>
               ) : (
+                // --- VISTA LISTA RISULTATI ---
                 <div className="result-list-container">
                   <p className="result-intro">{t.result_msg}</p>
+
                   {results.map((result) => (
                     <div key={result.id} className="result-item">
+                      {/* Immagine Full Width */}
                       <div className="image-container">
                         {result.youtube_link && (
                           <a
@@ -658,45 +663,55 @@ const ProductWizard = () => {
                         )}
                         <img src={result.image} alt={result.title} />
                       </div>
-                      <h2 className="prod-title">{result.title}</h2>
-                      <p className="prod-desc">
-                        {result[`description_${lang}`] || result.description_it}
-                      </p>
-                      <div className="specs-clean">
-                        {result.ratings &&
-                          Object.entries(result.ratings).map(([k, v]) => (
-                            <div key={k} className="spec-row">
-                              <span>{t.labels[k] || k}</span>
-                              <StarRating value={v} />
-                            </div>
-                          ))}
-                        {result.specs &&
-                          Object.entries(result.specs).map(([k, v]) => (
-                            <div key={k} className="spec-row">
-                              <span>{k}</span>
-                              <strong>{v}</strong>
-                            </div>
-                          ))}
-                        <div className="spec-row highlight">
-                          <span>{t.price}</span>
-                          <strong>€{result.price}</strong>
+
+                      {/* Contenuto Testuale Raggruppato */}
+                      <div className="card-content">
+                        <h2 className="prod-title">{result.title}</h2>
+                        <p className="prod-desc">
+                          {result[`description_${lang}`] ||
+                            result.description_it}
+                        </p>
+
+                        <div className="specs-clean">
+                          {result.ratings &&
+                            Object.entries(result.ratings).map(([k, v]) => (
+                              <div key={k} className="spec-row">
+                                <span>{t.labels[k] || k}</span>
+                                <StarRating value={v} />
+                              </div>
+                            ))}
+                          {result.specs &&
+                            Object.entries(result.specs).map(([k, v]) => (
+                              <div key={k} className="spec-row">
+                                <span>{k}</span>
+                                <strong>{v}</strong>
+                              </div>
+                            ))}
+                          <div className="spec-row highlight">
+                            <span>{t.price}</span>
+                            <strong>€{result.price}</strong>
+                          </div>
                         </div>
+
+                        {result.discount && (
+                          <div className="discount-clean">
+                            {t.discount_label}:{" "}
+                            <strong>{result.discount}</strong>
+                          </div>
+                        )}
+
+                        <a
+                          href={result.link}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="main-cta"
+                        >
+                          {t.buy_btn}
+                        </a>
                       </div>
-                      {result.discount && (
-                        <div className="discount-clean">
-                          {t.discount_label}: <strong>{result.discount}</strong>
-                        </div>
-                      )}
-                      <a
-                        href={result.link}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="main-cta"
-                      >
-                        {t.buy_btn}
-                      </a>
                     </div>
                   ))}
+
                   <button
                     className="restart-link sticky-bottom"
                     onClick={restart}
