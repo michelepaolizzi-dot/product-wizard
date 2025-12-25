@@ -16,13 +16,26 @@ const INITIAL_DATA = [
     category: "foil",
     matcher: {
       sport: ["wing", "surf", "pump"],
-      foil_weight: ["med", "heavy"],
-      wing_wind: ["light", "all"],
-      pump_goal: ["learn", "endurance"],
     },
     title: "Sabfoil Leviathan 1350",
     image:
-      "https://sabfoil.com/images/thumbs/0003502_kit-leviathan-83-1350_550.jpeg",
+      "https://www.sportalcentro.it/wp-content/uploads/product-wizard/sab_razor_pro.jpg",
+    price: 2350,
+    link: "#",
+    discount: "SPORTALCENTRO",
+    specs: { Mast: "83cm", Wing: "1350 cm²" },
+    description_it: "Il Re del Glide. Perfetto per Wing col vento leggero.",
+    description_en: "The King of Glide. Perfect for Lightwind Wing.",
+  },
+    {
+    id: "sab-medusa",
+    category: "foil",
+    matcher: {
+      sport: ["wing", "surf", "pump"],
+    },
+    title: "Sabfoil Medusa Pro",
+    image:
+      "https://www.sportalcentro.it/wp-content/uploads/product-wizard/sab_medusa_pro.jpg",
     price: 2350,
     link: "#",
     discount: "SPORTALCENTRO",
