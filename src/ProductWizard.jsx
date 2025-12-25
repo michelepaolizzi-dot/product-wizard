@@ -1,16 +1,11 @@
 /*
-  ISTRUZIONI PER IL FILE JSON (MULTIPLE MATCHES):
-  -----------------------------------------------
-  Ora puoi assegnare più valori allo stesso criterio usando le parentesi quadre [ ].
+  FILE: ProductWizard.jsx
   
-  Esempio: Un Foil che va bene sia per Wing che per Surf:
-  "matcher": {
-     "sport": ["wing", "surf"], 
-     "foil_level": ["int", "adv"]
-  }
+  LOGICA SUP AGGIORNATA:
+  - Domanda Utilizzo: Occasionale, Escursioni, Gara, Yoga, Surf
+  - Domanda Budget: <300, 300-600, >600
   
-  Questo prodotto apparirà SE l'utente sceglie Wing OPPURE Surf, 
-  e SE l'utente è Intermedio OPPURE Avanzato.
+  Le altre domande (Livello, Altezza, Luogo) sono rimaste invariate.
 */
 
 import React, { useState, useEffect } from "react";
@@ -19,94 +14,126 @@ import "./ProductWizard.css";
 const LOGO_URL =
   "https://www.sportalcentro.it/wp-content/uploads/2020/03/michi.png.webp";
 
-// --- DATI DI ESEMPIO CON LOGICA MULTIPLA ---
+// --- DATI DI ESEMPIO AGGIORNATI CON NUOVE CHIAVI SUP ---
 const INITIAL_DATA = [
-  // 1. IL MULTI-SPORT (Wing + Surf + Pump)
+  // --- SUP ECONOMICO (Occasionale / <300€) ---
+  {
+    id: "sup-occasional-low",
+    category: "sup",
+    matcher: {
+      sup_use: "occasional",
+      sup_budget: "b_low", // Meno di 300€
+    },
+    title: "Basic Cruiser 10'6",
+    image:
+      "https://images.unsplash.com/photo-1612663957242-706f9d453625?auto=format&fit=crop&w=600&q=80",
+    price: 289,
+    link: "#",
+    discount: "SPORTALCENTRO",
+    ratings: { stability: 4, speed: 2 },
+    description_it:
+      "Ideale per chi inizia o ne fa un uso saltuario in vacanza. Leggera e facile.",
+    description_en:
+      "Ideal for beginners or occasional holiday use. Light and easy.",
+  },
+
+  // --- SUP ESCURSIONE (Fascia Media 300-600€) ---
+  {
+    id: "sup-touring-mid",
+    category: "sup",
+    matcher: {
+      sup_use: "excursion",
+      sup_budget: "b_mid", // 300-600€
+    },
+    title: "Explorer Touring 12'6",
+    image:
+      "https://images.unsplash.com/photo-1596562095816-432d664562c5?auto=format&fit=crop&w=600&q=80",
+    price: 499,
+    link: "#",
+    discount: "SPORTALCENTRO",
+    ratings: { stability: 3, speed: 5 },
+    description_it:
+      "Perfetta per stare in acqua diverse ore. Scorre veloce e affatica meno.",
+    description_en:
+      "Perfect for spending hours on the water. Glides fast with less effort.",
+  },
+
+  // --- SUP GARA / TOP (Fascia Alta >600€) ---
+  {
+    id: "sup-race-pro",
+    category: "sup",
+    matcher: {
+      sup_use: ["race", "excursion"],
+      sup_budget: "b_high", // > 600€
+    },
+    title: "Carbon Race Pro 14'",
+    image:
+      "https://images.unsplash.com/photo-1547849495-9304a43b2f56?auto=format&fit=crop&w=600&q=80",
+    price: 850,
+    link: "#",
+    discount: "SPORTALCENTRO",
+    ratings: { stability: 2, speed: 5 },
+    description_it:
+      "Prestazioni pure. Rigida come una tavola in carbonio, veloce come un proiettile.",
+    description_en: "Pure performance. Stiff as carbon, fast as a bullet.",
+  },
+
+  // --- YOGA (Fascia Media) ---
+  {
+    id: "sup-yoga",
+    category: "sup",
+    matcher: { sup_use: "yoga" },
+    title: "Zen Lotus Yoga Board",
+    image:
+      "https://images.unsplash.com/photo-1544367563-12123d896889?auto=format&fit=crop&w=600&q=80",
+    price: 399,
+    link: "#",
+    discount: "SPORTALCENTRO",
+    ratings: { stability: 5, speed: 1 },
+    description_it:
+      "Piattaforma ultra stabile per le tue sessioni di yoga in acqua.",
+    description_en: "Ultra stable platform for your water yoga sessions.",
+  },
+
+  // --- HYDROFOIL ESEMPIO (Invariato) ---
   {
     id: "sab-leviathan-1350",
     category: "foil",
     matcher: {
-      // Questo prodotto appare per Wing, Surf E Pump!
       sport: ["wing", "surf", "pump"],
-      // Appare per pesi Medi e Pesanti
       foil_weight: ["med", "heavy"],
-      // Per il Wing, appare se cerchi lightwind
-      wing_wind: ["light", "all"],
-      // Per il Pump, va bene per imparare o endurance
-      pump_goal: ["learn", "endurance"],
     },
     title: "Sabfoil Leviathan 1350",
     image:
-      "https://sabfoil.com/images/thumbs/0003502_kit-leviathan-83-1350_550.jpeg",
+      "https://www.sportalcentro.it/wp-content/uploads/product-wizard/sab_medusa_pro.jpg",
     price: 2350,
     link: "#",
     discount: "SPORTALCENTRO",
     specs: { Mast: "83cm", Wing: "1350 cm²" },
     description_it:
-      "Il Re del Glide. Perfetto per Wing col vento leggero, per il Pumping infinito e per Surf su onde piccole.",
+      "Il Re del Glide. Perfetto per Wing col vento leggero e Pumping.",
     description_en:
-      "The King of Glide. Perfect for Lightwind Wing, endless Pumping, and small Wave Surf.",
+      "The King of Glide. Perfect for Lightwind Wing and Pumping.",
   },
 
-  // 2. LO SPECIFICO RADICALE (Solo Surf e Wing Wave)
   {
-    id: "sab-razor-820",
+    id: "sab-leviathan-1100",
     category: "foil",
     matcher: {
-      sport: ["wing", "surf"],
-      foil_level: ["adv", "exp"], // Solo per esperti
-      wing_wind: "strong",
-      surf_wave: "fast",
+      sport: ["wing", "surf", "pump"],
+      foil_weight: ["med", "heavy"],
     },
-    title: "Sabfoil Razor Pro 820",
+    title: "Sabfoil Leviathan 1100",
     image:
-      "https://sabfoil.com/images/thumbs/0004123_kit-razor-pro-82-820_550.jpeg",
-    price: 2400,
+      "https://www.sportalcentro.it/wp-content/uploads/product-wizard/sab_razor_pro.jpg",
+    price: 2350,
     link: "#",
     discount: "SPORTALCENTRO",
-    specs: { Mast: "93cm", Wing: "820 cm²" },
-    description_it: "Velocità pura e curve radicali. Solo per chi sa domarlo.",
+    specs: { Mast: "83cm", Wing: "1350 cm²" },
+    description_it:
+      "Il Re del Glide. Perfetto per Wing col vento leggero e Pumping.",
     description_en:
-      "Pure speed and radical turns. Only for those who can tame it.",
-  },
-
-  // 3. IL PRINCIPIANTE ASSOLUTO (Solo Wing)
-  {
-    id: "sab-tortuga-1250",
-    category: "foil",
-    matcher: {
-      sport: "wing",
-      foil_level: "beg",
-      // Se non specifico foil_weight, va bene per tutti i pesi
-    },
-    title: "Sabfoil Tortuga 1250",
-    image:
-      "https://sabfoil.com/images/thumbs/0002871_kit-tortuga-79-1100_550.jpeg",
-    price: 1750,
-    link: "#",
-    discount: "SPORTALCENTRO",
-    specs: { Mast: "73cm", Wing: "1250 cm²" },
-    description_it: "Stabilità totale per imparare senza stress.",
-    description_en: "Total stability to learn without stress.",
-  },
-
-  // 4. SUP (Esempio Multi-uso)
-  {
-    id: "sup-allround",
-    category: "sup",
-    matcher: {
-      sup_use: ["relax", "family", "yoga"], // Va bene per 3 cose diverse
-      sup_level: ["beg", "int"],
-    },
-    title: "Family Cruiser 10'6",
-    image:
-      "https://images.unsplash.com/photo-1612663957242-706f9d453625?auto=format&fit=crop&w=600&q=80",
-    price: 399,
-    link: "#",
-    discount: "SPORTALCENTRO",
-    ratings: { stability: 5, speed: 2 },
-    description_it: "La tavola tuttofare per eccellenza.",
-    description_en: "The ultimate do-it-all board.",
+      "The King of Glide. Perfect for Lightwind Wing and Pumping.",
   },
 ];
 
@@ -117,7 +144,7 @@ const translations = {
     step: "Passo",
     back: "Indietro",
     restart: "Ricomincia",
-    result_msg: "Ecco i prodotti consigliati per te:", // Plurale
+    result_msg: "Ecco i prodotti consigliati per te:",
     youtube_badge: "Testato su YouTube",
     price: "Prezzo",
     min_level: "Livello",
@@ -135,17 +162,20 @@ const translations = {
       s_wave: "Che onde surfi principalmente?",
       p_goal: "Obiettivo nel Pumping?",
       dw_lvl: "Esperienza nel Downwind?",
+      // SUP
       sup_lvl: "Esperienza col SUP?",
       sup_use: "Utilizzo principale?",
       sup_h: "Quanto sei alto/a?",
       sup_loc: "Dove lo userai?",
       sup_bud: "Il tuo budget?",
+      // Pump
       pump_src: "Alimentazione?",
     },
     options: {
       foil: "Hydrofoil",
       sup: "SUP Gonfiabile",
       pump: "Pompe Elettriche",
+      // Foil Options
       wing: "Wing Foil",
       surf: "Surf Foil",
       pmp: "Pump Foil",
@@ -156,8 +186,6 @@ const translations = {
       beg: "Principiante",
       int: "Intermedio",
       adv: "Avanzato",
-      exp: "Esperto",
-      learn: "Sto imparando",
       w_light: "Leggero (Lightwind)",
       w_all: "Medio / All-round",
       w_strong: "Forte / Wave",
@@ -166,25 +194,36 @@ const translations = {
       g_learn: "Imparare (Dock Start)",
       g_enduro: "Resistenza / Distanza",
       g_free: "Freestyle",
+
+      // SUP LEVELS
       s_beg: "Principiante",
       s_int: "Intermedio",
       s_adv: "Avanzato",
-      relax: "Relax",
-      tour: "Touring",
+
+      // SUP USE (NUOVI)
+      occasional: "Utilizzo occasionale",
+      excursion: "Escursioni di varie ore",
+      race: "Velocità / Gara",
       yoga: "Yoga",
-      family: "Famiglia",
-      wave: "Surf",
+      surf: "Surf",
+
+      // SUP HEIGHT
       h_low: "< 160 cm",
       h_mid: "160-180 cm",
       h_high: "> 180 cm",
-      sea: "Mare",
+
+      // SUP LOCATION
+      sea: "Mare Calmo",
       lake: "Lago",
-      river: "Fiume",
+      river: "Fiume / Acqua mossa",
       all: "Ovunque",
-      b200: "< 200€",
-      b300: "200-300€",
-      b500: "300-500€",
-      b_plus: "> 500€",
+
+      // SUP BUDGET (NUOVI)
+      b_low: "Meno di 300 €",
+      b_mid: "Tra 300 e 600 €",
+      b_high: "Più di 600 €",
+
+      // Pump Options
       car: "Auto 12V",
       bat: "Batteria",
     },
@@ -235,8 +274,6 @@ const translations = {
       beg: "Beginner",
       int: "Intermediate",
       adv: "Advanced",
-      exp: "Expert",
-      learn: "Learning",
       w_light: "Lightwind",
       w_all: "Medium / All-round",
       w_strong: "Strong / Wave",
@@ -245,25 +282,31 @@ const translations = {
       g_learn: "Learning (Dock Start)",
       g_enduro: "Endurance",
       g_free: "Freestyle",
+
       s_beg: "Beginner",
       s_int: "Intermediate",
       s_adv: "Advanced",
-      relax: "Relax",
-      tour: "Touring",
+
+      // SUP USE (NEW)
+      occasional: "Occasional use",
+      excursion: "Long excursions",
+      race: "Speed / Race",
       yoga: "Yoga",
-      family: "Family",
-      wave: "Surf",
+      surf: "Surf",
+
       h_low: "< 160 cm",
       h_mid: "160-180 cm",
       h_high: "> 180 cm",
-      sea: "Sea",
+      sea: "Calm Sea",
       lake: "Lake",
-      river: "River",
+      river: "River / Rough",
       all: "Anywhere",
-      b200: "< 200€",
-      b300: "200-300€",
-      b500: "300-500€",
-      b_plus: "> 500€",
+
+      // SUP BUDGET (NEW)
+      b_low: "Less than 300 €",
+      b_mid: "300 - 600 €",
+      b_high: "More than 600 €",
+
       car: "Car 12V",
       bat: "Battery",
     },
@@ -285,7 +328,7 @@ const ProductWizard = () => {
   const [lang, setLang] = useState("it");
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState({});
-  const [results, setResults] = useState(null); // Nota: ora è 'results' (plurale)
+  const [results, setResults] = useState(null);
   const [products, setProducts] = useState([]);
   const t = translations[lang];
 
@@ -293,8 +336,9 @@ const ProductWizard = () => {
     setProducts(INITIAL_DATA);
   }, []);
 
-  // --- NAVIGAZIONE (Invariata) ---
+  // --- NAVIGAZIONE DOMANDE ---
   const getQuestion = () => {
+    // 0. CATEGORIA
     if (step === 0)
       return {
         key: "category",
@@ -305,6 +349,8 @@ const ProductWizard = () => {
           { v: "pump", l: t.options.pump, i: "⚡" },
         ],
       };
+
+    // --- HYDROFOIL ---
     if (answers.category === "foil") {
       if (step === 1)
         return {
@@ -327,6 +373,7 @@ const ProductWizard = () => {
             { v: "heavy", l: t.options.heavy },
           ],
         };
+
       if (answers.sport === "wing") {
         if (step === 3)
           return {
@@ -394,7 +441,10 @@ const ProductWizard = () => {
           };
       }
     }
+
+    // --- SUP (Logica Aggiornata) ---
     if (answers.category === "sup") {
+      // 1. Livello
       if (step === 1)
         return {
           key: "sup_level",
@@ -405,18 +455,22 @@ const ProductWizard = () => {
             { v: "adv", l: t.options.s_adv },
           ],
         };
+
+      // 2. Utilizzo (NUOVO SET)
       if (step === 2)
         return {
           key: "sup_use",
           text: t.questions.sup_use,
           opts: [
-            { v: "relax", l: t.options.relax },
-            { v: "tour", l: t.options.tour },
+            { v: "occasional", l: t.options.occasional },
+            { v: "excursion", l: t.options.excursion },
+            { v: "race", l: t.options.race },
             { v: "yoga", l: t.options.yoga },
-            { v: "family", l: t.options.family },
-            { v: "wave", l: t.options.wave },
+            { v: "surf", l: t.options.surf },
           ],
         };
+
+      // 3. Altezza
       if (step === 3)
         return {
           key: "sup_height",
@@ -427,6 +481,8 @@ const ProductWizard = () => {
             { v: "tall", l: t.options.h_high },
           ],
         };
+
+      // 4. Luogo
       if (step === 4)
         return {
           key: "sup_location",
@@ -438,18 +494,21 @@ const ProductWizard = () => {
             { v: "all", l: t.options.all },
           ],
         };
+
+      // 5. Budget (NUOVO SET)
       if (step === 5)
         return {
           key: "sup_budget",
           text: t.questions.sup_bud,
           opts: [
-            { v: "b200", l: t.options.b200 },
-            { v: "b300", l: t.options.b300 },
-            { v: "b500", l: t.options.b500 },
-            { v: "b_plus", l: t.options.b_plus },
+            { v: "b_low", l: t.options.b_low },
+            { v: "b_mid", l: t.options.b_mid },
+            { v: "b_high", l: t.options.b_high },
           ],
         };
     }
+
+    // --- PUMP ---
     if (answers.category === "pump") {
       if (step === 1)
         return {
@@ -461,6 +520,7 @@ const ProductWizard = () => {
           ],
         };
     }
+
     return null;
   };
 
@@ -479,41 +539,29 @@ const ProductWizard = () => {
     }
 
     if (done) {
-      findProducts(next); // Ora chiama findProducts (plurale)
+      findProducts(next);
     } else {
       setStep(step + 1);
     }
   };
 
-  // --- NUOVA LOGICA: TROVA MULTIPLI E GESTISCI ARRAY ---
   const findProducts = (finalAnswers) => {
     const matches = products.filter((p) => {
-      // .filter invece di .find
-      // 1. Categoria
       if (p.category !== finalAnswers.category) return false;
-
-      // 2. Controllo Matcher (Flessibile)
       if (p.matcher) {
         for (const [key, requirement] of Object.entries(p.matcher)) {
           const userVal = finalAnswers[key];
-
-          // Se l'utente non ha risposto a questa domanda (es. domanda di un'altra disciplina), ignora
           if (!userVal) continue;
-
-          // CASO A: Il requisito nel prodotto è un ARRAY ["wing", "surf"]
           if (Array.isArray(requirement)) {
-            if (!requirement.includes(userVal)) return false; // Se la scelta dell'utente non è nell'array -> Scarta
-          }
-          // CASO B: Il requisito è un valore singolo "wing"
-          else {
+            if (!requirement.includes(userVal)) return false;
+          } else {
             if (requirement !== userVal) return false;
           }
         }
       }
       return true;
     });
-
-    setResults(matches.length > 0 ? matches : []); // Salva array di risultati
+    setResults(matches.length > 0 ? matches : []);
   };
 
   const restart = () => {
@@ -521,7 +569,7 @@ const ProductWizard = () => {
     setAnswers({});
     setResults(null);
   };
-  const q = results ? null : getQuestion(); // Se ci sono risultati, q è null
+  const q = results ? null : getQuestion();
   const maxSteps =
     answers.category === "sup"
       ? 5
@@ -586,10 +634,8 @@ const ProductWizard = () => {
                   </button>
                 </div>
               ) : (
-                // --- VISTA LISTA RISULTATI ---
                 <div className="result-list-container">
                   <p className="result-intro">{t.result_msg}</p>
-
                   {results.map((result) => (
                     <div key={result.id} className="result-item">
                       <div className="image-container">
@@ -612,12 +658,10 @@ const ProductWizard = () => {
                         )}
                         <img src={result.image} alt={result.title} />
                       </div>
-
                       <h2 className="prod-title">{result.title}</h2>
                       <p className="prod-desc">
                         {result[`description_${lang}`] || result.description_it}
                       </p>
-
                       <div className="specs-clean">
                         {result.ratings &&
                           Object.entries(result.ratings).map(([k, v]) => (
@@ -638,13 +682,11 @@ const ProductWizard = () => {
                           <strong>€{result.price}</strong>
                         </div>
                       </div>
-
                       {result.discount && (
                         <div className="discount-clean">
                           {t.discount_label}: <strong>{result.discount}</strong>
                         </div>
                       )}
-
                       <a
                         href={result.link}
                         target="_blank"
@@ -655,7 +697,6 @@ const ProductWizard = () => {
                       </a>
                     </div>
                   ))}
-
                   <button
                     className="restart-link sticky-bottom"
                     onClick={restart}
