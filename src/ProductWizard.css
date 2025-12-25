@@ -1,0 +1,317 @@
+/* Container principale: pulito e bianco */
+.wizard-card {
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  max-width: 500px;
+  margin: 40px auto;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  border: 1px solid #f0f0f0;
+}
+
+/* Header */
+.wizard-header {
+  padding: 20px 25px 15px 25px; /* Padding aggiustato */
+  background: #ffffff;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  flex-direction: column; /* Impila foto sopra, titolo sotto */
+}
+
+/* FOTO PROFILO */
+.profile-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px; /* Spazio tra foto e titolo */
+}
+
+.profile-pic {
+  width: 80px; /* Dimensione foto */
+  height: 80px;
+  border-radius: 50%; /* La rende rotonda */
+  object-fit: cover;
+  border: 3px solid #fff; /* Bordo bianco per staccare */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ombra leggera */
+}
+
+/* Riga Titolo e Lingua */
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.wizard-header h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.subtitle {
+  font-size: 0.85rem;
+  color: #999;
+  display: block;
+  margin-top: 4px;
+}
+
+.lang-btn {
+  background: #f7f7f7;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #555;
+}
+
+/* Corpo e Navigazione */
+.wizard-body {
+  padding: 25px;
+}
+
+.progress-bar {
+  height: 4px;
+  background: #f0f0f0;
+  border-radius: 2px;
+  margin-bottom: 25px;
+  overflow: hidden;
+}
+
+.progress-bar div {
+  height: 100%;
+  background: #007bff;
+  transition: width 0.3s ease;
+}
+
+.question {
+  font-size: 1.4rem;
+  color: #222;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.options-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.option-btn {
+  display: block;
+  width: 100%;
+  padding: 15px 20px;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #444;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s;
+}
+
+.option-btn:hover {
+  border-color: #007bff;
+  color: #007bff;
+  background: #f8fbff;
+}
+
+.opt-icon {
+  margin-right: 10px;
+}
+
+.back-link,
+.restart-link {
+  background: none;
+  border: none;
+  color: #999;
+  margin-top: 20px;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 0.9rem;
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+/* Risultati */
+.result-layout {
+  text-align: center;
+}
+.result-intro {
+  color: #888;
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+}
+
+.image-container {
+  position: relative;
+  width: 100%;
+  height: 250px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.yt-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255, 0, 0, 0.9);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 6px 12px;
+  border-radius: 30px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.yt-svg {
+  width: 14px;
+  height: 14px;
+  fill: white;
+  display: block;
+}
+
+.prod-title {
+  font-size: 1.5rem;
+  color: #333;
+  margin: 0 0 10px 0;
+}
+.prod-desc {
+  color: #666;
+  line-height: 1.5;
+  margin-bottom: 20px;
+  font-size: 0.95rem;
+}
+
+.specs-clean {
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  padding: 15px 0;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.spec-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.spec-row strong {
+  color: #333;
+}
+.spec-row.highlight {
+  color: #007bff;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.star-rating .star {
+  color: #ddd;
+  font-size: 1.1rem;
+}
+.star-rating .star.filled {
+  color: #ffc107;
+}
+
+.discount-clean {
+  background: #fffbe6;
+  color: #856404;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+}
+
+.main-cta {
+  display: block;
+  width: 100%;
+  padding: 15px;
+  background: #28a745;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  transition: background 0.2s;
+}
+
+.main-cta:hover {
+  background: #218838;
+}
+
+.fade-in {
+  animation: fadeIn 0.4s ease;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ... Stili precedenti uguali ... */
+
+  /* NUOVI STILI PER LISTA RISULTATI */
+  .result-list-container {
+    text-align: center;
+    max-height: 70vh; /* Permette lo scroll se ci sono tanti prodotti */
+    overflow-y: auto;
+    padding-right: 5px; /* Spazio per scrollbar */
+  }
+
+  /* Scrollbar carina (opzionale) */
+  .result-list-container::-webkit-scrollbar {
+    width: 6px;
+  }
+  .result-list-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  .result-list-container::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 3px;
+  }
+
+  .result-item {
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 30px;
+    margin-bottom: 30px;
+  }
+
+  .result-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 10px;
+  }
+
+  /* Bottone restart sticky in fondo alla lista (opzionale) */
+  .sticky-bottom {
+    position: sticky;
+    bottom: -10px; /* Hack per farlo stare nel padding */
+    background: white;
+    padding: 15px 0;
+    border-top: 1px solid #f0f0f0;
+    width: 100%;
+  }
+}
