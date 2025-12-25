@@ -350,3 +350,48 @@
   width: 100%;
   margin-top: 20px;
 }
+
+/* ...Tutto il CSS precedente... */
+
+/* BOTTONE WHATSAPP FLOTTANTE */
+.whatsapp-float {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  background-color: #25d366; /* Colore ufficiale WhatsApp */
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 9999; /* Per stare sopra tutto */
+  transition: transform 0.3s ease, background-color 0.3s;
+}
+
+.whatsapp-float:hover {
+  background-color: #20b858;
+  transform: scale(1.05) translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+.wa-icon {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+}
+
+/* Nascondi testo su mobile per non coprire troppo (Opzionale, se vuoi) */
+@media (max-width: 480px) {
+  .whatsapp-float span {
+    display: none;
+  }
+  .whatsapp-float {
+    padding: 15px;
+    border-radius: 50%;
+  }
+}
