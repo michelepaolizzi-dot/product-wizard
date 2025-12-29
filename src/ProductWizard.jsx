@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./ProductWizard.css";
 
 const LOGO_URL =
-  "https://www.sportalcentro.it/wp-content/uploads/2020/03/michi.png.webp";
+  "https://www.sportalcentro.it/wp-content/uploads/product-wizard/michele_profilo.jpg";
 
 // --- CONFIGURAZIONE WHATSAPP ---
 // Inserisci qui il tuo numero col prefisso (es. 39 per l'Italia) senza spazi o +
