@@ -9,6 +9,63 @@ const LOGO_URL =
 const WA_NUMBER = "393331234567";
 
 const INITIAL_DATA = [
+  {
+    id: "airbank-pulse",
+    category: "pump",
+    matcher: {
+      pump_type: "travel", // Si attiva se l'utente sceglie "Viaggio/Leggerezza"
+    },
+    title: "Airbank Pulse Pro",
+    image:
+      "https://www.sportalcentro.it/wp-content/uploads/product-wizard/airbank_pulse.jpg", // Assicurati di avere l'immagine
+    price: 169,
+    link: "#",
+    discount: "SPORTALCENTRO",
+    specs: { Peso: "0.9 kg", Batteria: "4500 mAh", Max: "20 PSI" },
+    description_it:
+      "La più piccola e leggera. Sta nel palmo di una mano. Perfetta per chi viaggia.",
+    description_en:
+      "The smallest and lightest. Fits in your palm. Perfect for travel.",
+    youtube_link: "https://www.youtube.com/watch?v=enwfgiMnPro", // Review in italiano trovata
+  },
+  {
+    id: "airbank-puffer",
+    category: "pump",
+    matcher: {
+      pump_type: "performance",
+      pump_budget: "std", // Si attiva se cerca performance ma budget standard
+    },
+    title: "Airbank Puffer Pro",
+    image:
+      "https://www.sportalcentro.it/wp-content/uploads/product-wizard/airbank_puffer.jpg",
+    price: 199,
+    link: "#",
+    discount: "SPORTALCENTRO",
+    specs: { Peso: "1.26 kg", Batteria: "5200 mAh", Max: "20 PSI" },
+    description_it:
+      "Il mulo da lavoro. Batteria maggiorata per gonfiare più tavole/wing con una carica.",
+    description_en:
+      "The workhorse. Larger battery to inflate more boards/wings on a single charge.",
+  },
+  {
+    id: "ride-engine-airbox",
+    category: "pump",
+    matcher: {
+      pump_type: "performance",
+      pump_budget: "pro", // Si attiva se cerca il top di gamma
+    },
+    title: "Ride Engine Air Box",
+    image:
+      "https://www.sportalcentro.it/wp-content/uploads/product-wizard/re_airbox.jpg",
+    price: 339,
+    link: "#",
+    discount: "SPORTALCENTRO",
+    specs: { Durabilità: "Heavy Duty", Grade: "Premium", Max: "20 PSI" },
+    description_it:
+      "Qualità costruttiva superiore. Testata per uso intensivo e scuole. Indistruttibile.",
+    description_en:
+      "Superior build quality. Tested for intensive use and schools. Indestructible.",
+  },
   // ... (I TUOI DATI JSON SONO INVARIATI - TIENE QUELLI CHE AVEVI) ...
   // Per brevità qui metto solo un esempio, ma tu mantieni la tua lista completa INITIAL_DATA
   {
@@ -16,26 +73,13 @@ const INITIAL_DATA = [
     category: "foil",
     matcher: {
       sport: ["wing", "surf", "pump"],
+      foil_weight: ["med", "heavy"],
+      wing_wind: ["light", "all"],
+      pump_goal: ["learn", "endurance"],
     },
     title: "Sabfoil Leviathan 1350",
     image:
-      "https://www.sportalcentro.it/wp-content/uploads/product-wizard/sab_razor_pro.jpg",
-    price: 2350,
-    link: "#",
-    discount: "SPORTALCENTRO",
-    specs: { Mast: "83cm", Wing: "1350 cm²" },
-    description_it: "Il Re del Glide. Perfetto per Wing col vento leggero.",
-    description_en: "The King of Glide. Perfect for Lightwind Wing.",
-  },
-    {
-    id: "sab-medusa",
-    category: "foil",
-    matcher: {
-      sport: ["wing", "surf", "pump"],
-    },
-    title: "Sabfoil Medusa Pro",
-    image:
-      "https://www.sportalcentro.it/wp-content/uploads/product-wizard/sab_medusa_pro.jpg",
+      "https://sabfoil.com/images/thumbs/0003502_kit-leviathan-83-1350_550.jpeg",
     price: 2350,
     link: "#",
     discount: "SPORTALCENTRO",
@@ -100,6 +144,9 @@ const translations = {
       sup_loc: "Dove lo userai?",
       sup_bud: "Il tuo budget?",
       pump_src: "Alimentazione?",
+      // ...
+      pump_type: "Qual è la tua priorità?",
+      pump_bud: "Che fascia di prodotto cerchi?", // Riutilizziamo o ne creiamo una nuova
     },
     options: {
       foil: "Hydrofoil",
@@ -145,6 +192,12 @@ const translations = {
       b_high: "Più di 600 €",
       car: "Auto 12V",
       bat: "Batteria",
+      // ...
+      // Nuove opzioni per le pompe
+      travel: "Viaggio / Minimo ingombro",
+      perf: "Autonomia & Potenza",
+      std_qual: "Miglior Rapporto Qualità/Prezzo",
+      pro_qual: "Top di Gamma (Heavy Duty)",
     },
     labels: { stability: "Stabilità", speed: "Velocità" },
   },
@@ -183,6 +236,8 @@ const translations = {
       sup_loc: "Location?",
       sup_bud: "Budget?",
       pump_src: "Power source?",
+      pump_type: "What is your priority?",
+      pump_bud: "Which product tier?",
     },
     options: {
       foil: "Hydrofoil",
@@ -228,6 +283,10 @@ const translations = {
       b_high: "> 600 €",
       car: "Car 12V",
       bat: "Battery",
+      travel: "Travel / Ultra Compact",
+      perf: "Battery Life & Power",
+      std_qual: "Best Value",
+      pro_qual: "Top of the Line (Heavy Duty)",
     },
     labels: { stability: "Stability", speed: "Speed" },
   },
@@ -418,16 +477,31 @@ const ProductWizard = () => {
     }
 
     // --- PUMP ---
+
+    // --- PUMP ---
     if (answers.category === "pump") {
+      // Step 1: Chiediamo la priorità (Compattezza vs Performance)
       if (step === 1)
         return {
-          key: "pump_src",
-          text: t.questions.pump_src,
+          key: "pump_type",
+          text: t.questions.pump_type,
           opts: [
-            { v: "car", l: t.options.car },
-            { v: "bat", l: t.options.bat },
+            { v: "travel", l: t.options.travel, i: "🎒" }, // Porta a Pulse Pro
+            { v: "performance", l: t.options.perf, i: "🔋" }, // Porta a Puffer o RE
           ],
         };
+
+      // Step 2: Se ha scelto Performance, chiediamo il livello (Budget vs Pro)
+      if (step === 2 && answers.pump_type === "performance") {
+        return {
+          key: "pump_budget",
+          text: t.questions.pump_bud,
+          opts: [
+            { v: "std", l: t.options.std_qual }, // Porta a Puffer Pro
+            { v: "pro", l: t.options.pro_qual }, // Porta a Ride Engine
+          ],
+        };
+      }
     }
 
     return null;
@@ -439,7 +513,13 @@ const ProductWizard = () => {
     let done = false;
 
     if (next.category === "sup" && step === 5) done = true;
-    if (next.category === "pump" && step === 1) done = true;
+    // Logica di fine wizard per PUMP
+    if (next.category === "pump") {
+      // Se sceglie "travel" al passo 1, abbiamo finito (va alla Pulse Pro)
+      if (step === 1 && next.pump_type === "travel") done = true;
+      // Se sceglie "performance", va al passo 2 (budget), poi finisce
+      if (step === 2) done = true;
+    }
     if (next.category === "foil") {
       if (next.sport === "wing" && step === 4) done = true;
       if (next.sport === "surf" && step === 4) done = true;
