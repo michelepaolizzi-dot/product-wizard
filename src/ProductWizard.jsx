@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./ProductWizard.css";
 
 const LOGO_URL =
-  "https://www.sportalcentro.it/wp-content/uploads/2020/03/michi.png.webp";
+  "https://www.sportalcentro.it/wp-content/uploads/product-wizard/michele_profilo.jpg";
 
 // --- CONFIGURAZIONE WHATSAPP ---
 // Inserisci qui il tuo numero col prefisso (es. 39 per l'Italia) senza spazi o +
@@ -70,24 +70,28 @@ const INITIAL_DATA = [
       pump_prio: ["compact"],
     },
     title: "Airbank Puffer Pro",
-    image: "https://via.placeholder.com/600x400?text=Airbank+Puffer+Pro", // Inserisci URL reale
+    image:
+      "https://www.sportalcentro.it/wp-content/uploads/product-wizard/airbank_puffer_pro.png.webp", // Inserisci URL reale
     price: 129,
     link: "#",
     discount: "SPORTALCENTRO",
     // Ratings richiesti: Compactness, Autonomy, Speed
     ratings: { compactness: 4, autonomy: 3, speed: 3 },
-    description_it: "La pompa più compatta al mondo. Sta nel palmo di una mano.",
-    description_en: "The world's most compact pump. Fits in the palm of your hand.",
+    description_it:
+      "La pompa più compatta al mondo. Sta nel palmo di una mano.",
+    description_en:
+      "The world's most compact pump. Fits in the palm of your hand.",
   },
   {
     id: "airbank-pulse-pro",
     category: "pump",
     matcher: {
       // Priorità: Potenza e Autonomia (Bilanciata)
-      pump_prio: ["power","compact"],
+      pump_prio: ["power", "compact"],
     },
     title: "Airbank Pulse Pro",
-    image: "https://via.placeholder.com/600x400?text=Airbank+Pulse+Pro", // Inserisci URL reale
+    image:
+      "https://www.sportalcentro.it/wp-content/uploads/product-wizard/airbank_pulse_pro.png.webp", // Inserisci URL reale
     price: 189,
     link: "#",
     discount: "SPORTALCENTRO",
@@ -103,13 +107,16 @@ const INITIAL_DATA = [
       pump_prio: ["power"],
     },
     title: "Ride Engine Air Pump",
-    image: "https://via.placeholder.com/600x400?text=Ride+Engine+Pump", // Inserisci URL reale
+    image:
+      "https://www.sportalcentro.it/wp-content/uploads/product-wizard/ridengine_air.jpg", // Inserisci URL reale
     price: 249,
     link: "#",
     discount: "SPORTALCENTRO",
     ratings: { compactness: 3, autonomy: 4, speed: 4 },
-    description_it: "Heavy duty. Per chi deve gonfiare più tavole consecutivamente.",
-    description_en: "Heavy duty. For those who need to inflate multiple boards in a row.",
+    description_it:
+      "Heavy duty. Per chi deve gonfiare più tavole consecutivamente.",
+    description_en:
+      "Heavy duty. For those who need to inflate multiple boards in a row.",
   },
 ];
 
@@ -204,8 +211,8 @@ const translations = {
       p_power: "Autonomia e potenza",
     },
     // Etichette per le specifiche tecniche (Ratings)
-    labels: { 
-      stability: "Stabilità", 
+    labels: {
+      stability: "Stabilità",
       speed: "Velocità",
       compactness: "Compattezza",
       autonomy: "Autonomia",
@@ -298,8 +305,8 @@ const translations = {
       p_compact: "Minimum size",
       p_power: "Autonomy & Power",
     },
-    labels: { 
-      stability: "Stability", 
+    labels: {
+      stability: "Stability",
       speed: "Speed",
       compactness: "Compactness",
       autonomy: "Autonomy",
@@ -569,13 +576,13 @@ const ProductWizard = () => {
     setResults(null);
   };
   const q = results ? null : getQuestion();
-  
+
   // Calcolo progresso
   let maxSteps = 3;
   if (answers.category === "sup") maxSteps = 5;
   else if (answers.category === "pump") maxSteps = 2;
   else if (answers.sport === "wing" || answers.sport === "surf") maxSteps = 4;
-  
+
   const progress = Math.min((step / maxSteps) * 100, 100);
 
   return (
