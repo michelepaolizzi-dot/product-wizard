@@ -248,6 +248,7 @@
 .spec-row {
   display: flex;
   justify-content: space-between;
+  align-items: center; /* <--- QUESTA RIGA ALLINEA IL TESTO CON LE STELLE */
   padding: 6px 0;
   font-size: 0.9rem;
   color: #555;
@@ -383,6 +384,22 @@
   width: 24px;
   height: 24px;
   fill: currentColor;
+}
+
+/* STELLE RATING */
+.star-rating {
+  display: inline-flex; /* Mantiene le stelle sulla stessa riga */
+  gap: 2px; /* Spazio tra una stella e l'altra */
+}
+
+.star {
+  font-size: 1.1rem;
+  color: #ddd; /* Colore stella vuota (grigio) */
+  transition: color 0.2s;
+}
+
+.star.filled {
+  color: #ffc107; /* Colore stella piena (oro) */
 }
 
 /* Nascondi testo su mobile per non coprire troppo (Opzionale, se vuoi) */
