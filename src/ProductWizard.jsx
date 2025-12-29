@@ -9,77 +9,16 @@ const LOGO_URL =
 const WA_NUMBER = "393331234567";
 
 const INITIAL_DATA = [
-  {
-    id: "airbank-pulse",
-    category: "pump",
-    matcher: {
-      pump_type: "travel", // Si attiva se l'utente sceglie "Viaggio/Leggerezza"
-    },
-    title: "Airbank Pulse Pro",
-    image:
-      "https://www.sportalcentro.it/wp-content/uploads/product-wizard/airbank_pulse.jpg", // Assicurati di avere l'immagine
-    price: 169,
-    link: "#",
-    discount: "SPORTALCENTRO",
-    specs: { Peso: "0.9 kg", Batteria: "4500 mAh", Max: "20 PSI" },
-    description_it:
-      "La più piccola e leggera. Sta nel palmo di una mano. Perfetta per chi viaggia.",
-    description_en:
-      "The smallest and lightest. Fits in your palm. Perfect for travel.",
-    youtube_link: "https://www.youtube.com/watch?v=enwfgiMnPro", // Review in italiano trovata
-  },
-  {
-    id: "airbank-puffer",
-    category: "pump",
-    matcher: {
-      pump_type: "performance",
-      pump_budget: "std", // Si attiva se cerca performance ma budget standard
-    },
-    title: "Airbank Puffer Pro",
-    image:
-      "https://www.sportalcentro.it/wp-content/uploads/product-wizard/airbank_puffer.jpg",
-    price: 199,
-    link: "#",
-    discount: "SPORTALCENTRO",
-    specs: { Peso: "1.26 kg", Batteria: "5200 mAh", Max: "20 PSI" },
-    description_it:
-      "Il mulo da lavoro. Batteria maggiorata per gonfiare più tavole/wing con una carica.",
-    description_en:
-      "The workhorse. Larger battery to inflate more boards/wings on a single charge.",
-  },
-  {
-    id: "ride-engine-airbox",
-    category: "pump",
-    matcher: {
-      pump_type: "performance",
-      pump_budget: "pro", // Si attiva se cerca il top di gamma
-    },
-    title: "Ride Engine Air Box",
-    image:
-      "https://www.sportalcentro.it/wp-content/uploads/product-wizard/re_airbox.jpg",
-    price: 339,
-    link: "#",
-    discount: "SPORTALCENTRO",
-    specs: { Durabilità: "Heavy Duty", Grade: "Premium", Max: "20 PSI" },
-    description_it:
-      "Qualità costruttiva superiore. Testata per uso intensivo e scuole. Indistruttibile.",
-    description_en:
-      "Superior build quality. Tested for intensive use and schools. Indestructible.",
-  },
-  // ... (I TUOI DATI JSON SONO INVARIATI - TIENE QUELLI CHE AVEVI) ...
-  // Per brevità qui metto solo un esempio, ma tu mantieni la tua lista completa INITIAL_DATA
+  // --- PRODOTTI ESISTENTI (FOIL / SUP) ---
   {
     id: "sab-leviathan-1350",
     category: "foil",
     matcher: {
       sport: ["wing", "surf", "pump"],
-      foil_weight: ["med", "heavy"],
-      wing_wind: ["light", "all"],
-      pump_goal: ["learn", "endurance"],
     },
     title: "Sabfoil Leviathan 1350",
     image:
-      "https://sabfoil.com/images/thumbs/0003502_kit-leviathan-83-1350_550.jpeg",
+      "https://www.sportalcentro.it/wp-content/uploads/product-wizard/sab_razor_pro.jpg",
     price: 2350,
     link: "#",
     discount: "SPORTALCENTRO",
@@ -87,7 +26,22 @@ const INITIAL_DATA = [
     description_it: "Il Re del Glide. Perfetto per Wing col vento leggero.",
     description_en: "The King of Glide. Perfect for Lightwind Wing.",
   },
-  // ... Assicurati di avere tutti i tuoi prodotti qui ...
+  {
+    id: "sab-medusa",
+    category: "foil",
+    matcher: {
+      sport: ["wing", "surf", "pump"],
+    },
+    title: "Sabfoil Medusa Pro",
+    image:
+      "https://www.sportalcentro.it/wp-content/uploads/product-wizard/sab_medusa_pro.jpg",
+    price: 2350,
+    link: "#",
+    discount: "SPORTALCENTRO",
+    specs: { Mast: "83cm", Wing: "1350 cm²" },
+    description_it: "Versatile e veloce.",
+    description_en: "Versatile and fast.",
+  },
   {
     id: "sup-allround",
     category: "sup",
@@ -104,6 +58,67 @@ const INITIAL_DATA = [
     ratings: { stability: 5, speed: 2 },
     description_it: "La tavola tuttofare per eccellenza.",
     description_en: "The ultimate do-it-all board.",
+  },
+
+  // --- NUOVE POMPE ELETTRICHE ---
+  {
+    id: "airbank-puffer-pro",
+    category: "pump",
+    matcher: {
+      // Priorità: Minimo ingombro.
+      // Adatto a Wing, Materassini, ma può fare anche SUP in emergenza se l'utente accetta i limiti.
+      pump_prio: ["compact"],
+    },
+    title: "Airbank Puffer Pro",
+    image:
+      "https://www.sportalcentro.it/wp-content/uploads/product-wizard/airbank_puffer_pro.png.webp", // Inserisci URL reale
+    price: 129,
+    link: "#",
+    discount: "SPORTALCENTRO",
+    // Ratings richiesti: Compactness, Autonomy, Speed
+    ratings: { compactness: 5, autonomy: 3, speed: 3 },
+    description_it:
+      "La pompa più compatta al mondo. Sta nel palmo di una mano.",
+    description_en:
+      "The world's most compact pump. Fits in the palm of your hand.",
+  },
+  {
+    id: "airbank-pulse-pro",
+    category: "pump",
+    matcher: {
+      // Priorità: Potenza e Autonomia (Bilanciata)
+      pump_prio: ["power"],
+      pump_target: ["sup", "kayak", "wing"],
+    },
+    title: "Airbank Pulse Pro",
+    image:
+      "https://www.sportalcentro.it/wp-content/uploads/product-wizard/airbank_pulse_pro.png.webp", // Inserisci URL reale
+    price: 189,
+    link: "#",
+    discount: "SPORTALCENTRO",
+    ratings: { compactness: 4, autonomy: 4, speed: 4 },
+    description_it: "Il bilanciamento perfetto tra potenza e portabilità.",
+    description_en: "The perfect balance between power and portability.",
+  },
+  {
+    id: "ride-engine-air-pump",
+    category: "pump",
+    matcher: {
+      // Priorità: Potenza e Autonomia (Massima)
+      pump_prio: ["power"],
+      pump_target: ["sup", "kayak"],
+    },
+    title: "Ride Engine Air Pump",
+    image:
+      "https://www.sportalcentro.it/wp-content/uploads/product-wizard/ridengine_air.jpg", // Inserisci URL reale
+    price: 249,
+    link: "#",
+    discount: "SPORTALCENTRO",
+    ratings: { compactness: 2, autonomy: 5, speed: 5 },
+    description_it:
+      "Heavy duty. Per chi deve gonfiare più tavole consecutivamente.",
+    description_en:
+      "Heavy duty. For those who need to inflate multiple boards in a row.",
   },
 ];
 
@@ -124,7 +139,7 @@ const translations = {
     contact_desc:
       "Nessun prodotto corrisponde esattamente a TUTTI i criteri. Contattaci!",
 
-    // NUOVO TESTO WHATSAPP
+    // WHATSAPP
     wa_btn: "Hai dubbi? Scrivimi su WhatsApp",
     wa_msg:
       "Ciao Michele, ho fatto il test dell'attrezzatura ma ho ancora qualche dubbio...",
@@ -143,10 +158,9 @@ const translations = {
       sup_h: "Quanto sei alto/a?",
       sup_loc: "Dove lo userai?",
       sup_bud: "Il tuo budget?",
-      pump_src: "Alimentazione?",
-      // ...
-      pump_type: "Qual è la tua priorità?",
-      pump_bud: "Che fascia di prodotto cerchi?", // Riutilizziamo o ne creiamo una nuova
+      // --- NUOVE DOMANDE PUMP ---
+      pump_target: "Cosa devi gonfiare?",
+      pump_prio: "Qual è la tua priorità?",
     },
     options: {
       foil: "Hydrofoil",
@@ -190,16 +204,21 @@ const translations = {
       b_low: "Meno di 300 €",
       b_mid: "300 - 600 €",
       b_high: "Più di 600 €",
-      car: "Auto 12V",
-      bat: "Batteria",
-      // ...
-      // Nuove opzioni per le pompe
-      travel: "Viaggio / Minimo ingombro",
-      perf: "Autonomia & Potenza",
-      std_qual: "Miglior Rapporto Qualità/Prezzo",
-      pro_qual: "Top di Gamma (Heavy Duty)",
+      // --- OPZIONI PUMP ---
+      t_sup: "SUP",
+      t_kayak: "Kayak",
+      t_wing: "Wing / Kite",
+      t_mat: "Materassini",
+      p_compact: "Minimo ingombro",
+      p_power: "Autonomia e potenza",
     },
-    labels: { stability: "Stabilità", speed: "Velocità" },
+    // Etichette per le specifiche tecniche (Ratings)
+    labels: {
+      stability: "Stabilità",
+      speed: "Velocità",
+      compactness: "Compattezza",
+      autonomy: "Autonomia",
+    },
   },
   en: {
     app_title: "The best tested by Michele",
@@ -216,7 +235,6 @@ const translations = {
     contact_title: "No Results",
     contact_desc: "No products match ALL your criteria. Contact us!",
 
-    // NUOVO TESTO WHATSAPP (EN)
     wa_btn: "Doubts? Chat on WhatsApp",
     wa_msg:
       "Hi Michele, I took the gear quiz but I still have some questions...",
@@ -235,9 +253,9 @@ const translations = {
       sup_h: "Your Height?",
       sup_loc: "Location?",
       sup_bud: "Budget?",
-      pump_src: "Power source?",
-      pump_type: "What is your priority?",
-      pump_bud: "Which product tier?",
+      // --- NEW PUMP QUESTIONS ---
+      pump_target: "What do you need to inflate?",
+      pump_prio: "What is your priority?",
     },
     options: {
       foil: "Hydrofoil",
@@ -281,14 +299,20 @@ const translations = {
       b_low: "< 300 €",
       b_mid: "300 - 600 €",
       b_high: "> 600 €",
-      car: "Car 12V",
-      bat: "Battery",
-      travel: "Travel / Ultra Compact",
-      perf: "Battery Life & Power",
-      std_qual: "Best Value",
-      pro_qual: "Top of the Line (Heavy Duty)",
+      // --- PUMP OPTIONS ---
+      t_sup: "SUP",
+      t_kayak: "Kayak",
+      t_wing: "Wing / Kite",
+      t_mat: "Mattresses",
+      p_compact: "Minimum size",
+      p_power: "Autonomy & Power",
     },
-    labels: { stability: "Stability", speed: "Speed" },
+    labels: {
+      stability: "Stability",
+      speed: "Speed",
+      compactness: "Compactness",
+      autonomy: "Autonomy",
+    },
   },
 };
 
@@ -476,32 +500,30 @@ const ProductWizard = () => {
         };
     }
 
-    // --- PUMP ---
-
-    // --- PUMP ---
+    // --- PUMP (AGGIORNATO) ---
     if (answers.category === "pump") {
-      // Step 1: Chiediamo la priorità (Compattezza vs Performance)
+      // Step 1: Cosa devi gonfiare?
       if (step === 1)
         return {
-          key: "pump_type",
-          text: t.questions.pump_type,
+          key: "pump_target",
+          text: t.questions.pump_target,
           opts: [
-            { v: "travel", l: t.options.travel, i: "🎒" }, // Porta a Pulse Pro
-            { v: "performance", l: t.options.perf, i: "🔋" }, // Porta a Puffer o RE
+            { v: "sup", l: t.options.t_sup },
+            { v: "kayak", l: t.options.t_kayak },
+            { v: "wing", l: t.options.t_wing },
+            { v: "mat", l: t.options.t_mat },
           ],
         };
-
-      // Step 2: Se ha scelto Performance, chiediamo il livello (Budget vs Pro)
-      if (step === 2 && answers.pump_type === "performance") {
+      // Step 2: Priorità?
+      if (step === 2)
         return {
-          key: "pump_budget",
-          text: t.questions.pump_bud,
+          key: "pump_prio",
+          text: t.questions.pump_prio,
           opts: [
-            { v: "std", l: t.options.std_qual }, // Porta a Puffer Pro
-            { v: "pro", l: t.options.pro_qual }, // Porta a Ride Engine
+            { v: "compact", l: t.options.p_compact },
+            { v: "power", l: t.options.p_power },
           ],
         };
-      }
     }
 
     return null;
@@ -513,13 +535,9 @@ const ProductWizard = () => {
     let done = false;
 
     if (next.category === "sup" && step === 5) done = true;
-    // Logica di fine wizard per PUMP
-    if (next.category === "pump") {
-      // Se sceglie "travel" al passo 1, abbiamo finito (va alla Pulse Pro)
-      if (step === 1 && next.pump_type === "travel") done = true;
-      // Se sceglie "performance", va al passo 2 (budget), poi finisce
-      if (step === 2) done = true;
-    }
+    // PUMP finisce allo step 2
+    if (next.category === "pump" && step === 2) done = true;
+
     if (next.category === "foil") {
       if (next.sport === "wing" && step === 4) done = true;
       if (next.sport === "surf" && step === 4) done = true;
@@ -542,6 +560,7 @@ const ProductWizard = () => {
           const userVal = finalAnswers[key];
           if (!userVal) continue;
           if (Array.isArray(requirement)) {
+            // Se il requirement è un array, basta che il valore utente sia incluso
             if (!requirement.includes(userVal)) return false;
           } else {
             if (requirement !== userVal) return false;
@@ -559,12 +578,13 @@ const ProductWizard = () => {
     setResults(null);
   };
   const q = results ? null : getQuestion();
-  const maxSteps =
-    answers.category === "sup"
-      ? 5
-      : answers.sport === "wing" || answers.sport === "surf"
-      ? 4
-      : 3;
+
+  // Calcolo progresso
+  let maxSteps = 3;
+  if (answers.category === "sup") maxSteps = 5;
+  else if (answers.category === "pump") maxSteps = 2;
+  else if (answers.sport === "wing" || answers.sport === "surf") maxSteps = 4;
+
   const progress = Math.min((step / maxSteps) * 100, 100);
 
   return (
@@ -657,6 +677,7 @@ const ProductWizard = () => {
                         </p>
 
                         <div className="specs-clean">
+                          {/* Visualizza i Rating (Stelle) se presenti */}
                           {result.ratings &&
                             Object.entries(result.ratings).map(([k, v]) => (
                               <div key={k} className="spec-row">
@@ -664,6 +685,7 @@ const ProductWizard = () => {
                                 <StarRating value={v} />
                               </div>
                             ))}
+                          {/* Visualizza le Specs testuali se presenti */}
                           {result.specs &&
                             Object.entries(result.specs).map(([k, v]) => (
                               <div key={k} className="spec-row">
