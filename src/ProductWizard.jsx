@@ -358,23 +358,16 @@ const ProductWizard = () => {
           opts: [
             { v: "wing", l: t.options.wing },
             { v: "surf", l: t.options.surf },
-            { v: "pmp", l: t.options.pmp },
+            { v: "pump", l: t.options.pmp },
             { v: "dw", l: t.options.dw },
-          ],
-        };
-      if (step === 2)
-        return {
-          key: "foil_weight",
-          text: t.questions.f_weight,
-          opts: [
-            { v: "light", l: t.options.light },
-            { v: "med", l: t.options.med },
-            { v: "heavy", l: t.options.heavy },
+            { v: "sup", l: t.options.t_sup },
           ],
         };
 
+      // Step 2 (Peso) rimosso. Gli step successivi sono shiftati indietro di 1.
+
       if (answers.sport === "wing") {
-        if (step === 3)
+        if (step === 2)
           return {
             key: "foil_level",
             text: t.questions.f_level,
@@ -384,7 +377,7 @@ const ProductWizard = () => {
               { v: "adv", l: t.options.adv },
             ],
           };
-        if (step === 4)
+        if (step === 3)
           return {
             key: "wing_wind",
             text: t.questions.w_wind,
@@ -396,7 +389,7 @@ const ProductWizard = () => {
           };
       }
       if (answers.sport === "surf") {
-        if (step === 3)
+        if (step === 2)
           return {
             key: "foil_level",
             text: t.questions.f_level,
@@ -406,7 +399,7 @@ const ProductWizard = () => {
               { v: "adv", l: t.options.adv },
             ],
           };
-        if (step === 4)
+        if (step === 3)
           return {
             key: "surf_wave",
             text: t.questions.s_wave,
@@ -417,7 +410,7 @@ const ProductWizard = () => {
           };
       }
       if (answers.sport === "pump") {
-        if (step === 3)
+        if (step === 2)
           return {
             key: "pump_goal",
             text: t.questions.p_goal,
@@ -429,7 +422,7 @@ const ProductWizard = () => {
           };
       }
       if (answers.sport === "dw") {
-        if (step === 3)
+        if (step === 2)
           return {
             key: "dw_level",
             text: t.questions.dw_lvl,
@@ -439,9 +432,22 @@ const ProductWizard = () => {
             ],
           };
       }
+      // --- NUOVA LOGICA SUP (HYDROFOIL) ---
+      if (answers.sport === "sup") {
+        if (step === 2)
+          return {
+            key: "foil_level", // Usa la stessa chiave se vuoi riutilizzare i prodotti che matchano su 'foil_level'
+            text: t.questions.f_level,
+            opts: [
+              { v: "beg", l: t.options.beg },
+              { v: "int", l: t.options.int },
+              { v: "adv", l: t.options.adv },
+            ],
+          };
+      }
     }
 
-    // --- SUP ---
+    // --- SUP (Categoria Principale) ---
     if (answers.category === "sup") {
       if (step === 1)
         return {
@@ -498,9 +504,8 @@ const ProductWizard = () => {
         };
     }
 
-    // --- PUMP (AGGIORNATO) ---
+    // --- PUMP (Categoria Elettrica) ---
     if (answers.category === "pump") {
-      // Step 1: Cosa devi gonfiare?
       if (step === 1)
         return {
           key: "pump_target",
@@ -512,7 +517,6 @@ const ProductWizard = () => {
             { v: "mat", l: t.options.t_mat },
           ],
         };
-      // Step 2: Priorità?
       if (step === 2)
         return {
           key: "pump_prio",
@@ -533,14 +537,16 @@ const ProductWizard = () => {
     let done = false;
 
     if (next.category === "sup" && step === 5) done = true;
-    // PUMP finisce allo step 2
     if (next.category === "pump" && step === 2) done = true;
 
     if (next.category === "foil") {
-      if (next.sport === "wing" && step === 4) done = true;
-      if (next.sport === "surf" && step === 4) done = true;
-      if (next.sport === "pump" && step === 3) done = true;
-      if (next.sport === "dw" && step === 3) done = true;
+      // Step di fine aggiornati
+      if (next.sport === "wing" && step === 3) done = true;
+      if (next.sport === "surf" && step === 3) done = true;
+      if (next.sport === "pump" && step === 2) done = true;
+      if (next.sport === "dw" && step === 2) done = true;
+      // SUP (Foil) ora finisce allo step 2 dopo la domanda sul livello
+      if (next.sport === "sup" && step === 2) done = true;
     }
 
     if (done) {
@@ -558,7 +564,6 @@ const ProductWizard = () => {
           const userVal = finalAnswers[key];
           if (!userVal) continue;
           if (Array.isArray(requirement)) {
-            // Se il requirement è un array, basta che il valore utente sia incluso
             if (!requirement.includes(userVal)) return false;
           } else {
             if (requirement !== userVal) return false;
@@ -577,11 +582,14 @@ const ProductWizard = () => {
   };
   const q = results ? null : getQuestion();
 
-  // Calcolo progresso
+  // Calcolo progresso aggiornato
   let maxSteps = 3;
   if (answers.category === "sup") maxSteps = 5;
   else if (answers.category === "pump") maxSteps = 2;
-  else if (answers.sport === "wing" || answers.sport === "surf") maxSteps = 4;
+  else if (answers.sport === "wing" || answers.sport === "surf") maxSteps = 3;
+  else if (answers.sport === "pump" || answers.sport === "dw") maxSteps = 2;
+  // Per SUP Foil abbiamo 2 step totali (Sport -> Livello)
+  else if (answers.sport === "sup") maxSteps = 2;
 
   const progress = Math.min((step / maxSteps) * 100, 100);
 
