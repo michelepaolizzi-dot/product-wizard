@@ -216,7 +216,7 @@
   width: 100%;
   height: 100%;
   object-fit: contain; /* <--- FONDAMENTALE: Mostra l'immagine intera senza tagliarla */
-  padding: 15px;       /* Aggiunge "aria" attorno al prodotto in modo che non tocchi i bordi */
+  padding: 15px; /* Aggiunge "aria" attorno al prodotto in modo che non tocchi i bordi */
 }
 
 /* Contenuto Testuale della Card */
