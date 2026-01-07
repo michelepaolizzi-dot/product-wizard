@@ -9,13 +9,11 @@ const LOGO_URL =
 const WA_NUMBER = "393331234567";
 
 const INITIAL_DATA = [
-  // --- PRODOTTI ESISTENTI (FOIL / SUP) ---
+  // --- HYDROFOIL (Criteria: Lift, Speed, Control) ---
   {
     id: "sab-leviathan-1350",
     category: "foil",
-    matcher: {
-      sport: ["wing", "surf", "pump"],
-    },
+    matcher: { sport: ["wing", "surf", "pump"] },
     title: "Sabfoil Leviathan 1350",
     image:
       "https://www.sportalcentro.it/wp-content/uploads/product-wizard/sab_razor_pro.jpg",
@@ -23,15 +21,15 @@ const INITIAL_DATA = [
     link: "#",
     discount: "SPORTALCENTRO",
     specs: { Mast: "83cm", Wing: "1350 cm²" },
+    // RATINGS SPECIFICI PER FOIL
+    ratings: { lift: 5, speed: 3, control: 4 },
     description_it: "Il Re del Glide. Perfetto per Wing col vento leggero.",
     description_en: "The King of Glide. Perfect for Lightwind Wing.",
   },
   {
     id: "sab-medusa",
     category: "foil",
-    matcher: {
-      sport: ["wing", "surf", "pump"],
-    },
+    matcher: { sport: ["wing", "surf", "pump"] },
     title: "Sabfoil Medusa Pro",
     image:
       "https://www.sportalcentro.it/wp-content/uploads/product-wizard/sab_medusa_pro.jpg",
@@ -39,9 +37,13 @@ const INITIAL_DATA = [
     link: "#",
     discount: "SPORTALCENTRO",
     specs: { Mast: "83cm", Wing: "1350 cm²" },
+    // RATINGS SPECIFICI PER FOIL
+    ratings: { lift: 3, speed: 5, control: 5 },
     description_it: "Versatile e veloce.",
     description_en: "Versatile and fast.",
   },
+
+  // --- SUP GONFIABILI (Criteria: Stability, Stiffness, Speed) ---
   {
     id: "sup-allround",
     category: "sup",
@@ -55,68 +57,55 @@ const INITIAL_DATA = [
     price: 399,
     link: "#",
     discount: "SPORTALCENTRO",
-    ratings: { stability: 5, speed: 2 },
+    // RATINGS SPECIFICI PER SUP
+    ratings: { stability: 5, stiffness: 3, speed: 2 },
     description_it: "La tavola tuttofare per eccellenza.",
     description_en: "The ultimate do-it-all board.",
   },
 
-  // --- NUOVE POMPE ELETTRICHE ---
+  // --- POMPE ELETTRICHE (Criteria: Compactness, Autonomy, Noise/Speed) ---
   {
     id: "airbank-puffer-pro",
     category: "pump",
-    matcher: {
-      // Priorità: Minimo ingombro.
-      // Adatto a Wing, Materassini, ma può fare anche SUP in emergenza se l'utente accetta i limiti.
-      pump_prio: ["compact"],
-    },
+    matcher: { pump_prio: ["compact"] },
     title: "Airbank Puffer Pro",
     image:
-      "https://www.sportalcentro.it/wp-content/uploads/product-wizard/airbank_puffer_pro.png.webp", // Inserisci URL reale
-    price: 129,
-    link: "#",
-    discount: "SPORTALCENTRO",
-    // Ratings richiesti: Compactness, Autonomy, Speed
-    ratings: { compactness: 4, autonomy: 3, speed: 3 },
-    description_it:
-      "La pompa più compatta al mondo. Sta nel palmo di una mano.",
-    description_en:
-      "The world's most compact pump. Fits in the palm of your hand.",
+      "https://www.sportalcentro.it/wp-content/uploads/product-wizard/airbank_puffer_pro.png.webp",
+    price: 110,
+    link: "https://www.airbankpump.com/products/airbank-puffer-pro-rechargeable-pump",
+    discount: "sportalcentro",
+    // RATINGS SPECIFICI PER POMPE
+    ratings: { compactness: 5, autonomy: 3, noise: 4 },
+    description_it: "La pompa più compatta al mondo.",
+    description_en: "The world's most compact pump.",
   },
   {
     id: "airbank-pulse-pro",
     category: "pump",
-    matcher: {
-      // Priorità: Potenza e Autonomia (Bilanciata)
-      pump_prio: ["power", "compact"],
-    },
+    matcher: { pump_prio: ["power", "compact"] },
     title: "Airbank Pulse Pro",
     image:
-      "https://www.sportalcentro.it/wp-content/uploads/product-wizard/airbank_pulse_pro.png.webp", // Inserisci URL reale
-    price: 189,
-    link: "#",
-    discount: "SPORTALCENTRO",
-    ratings: { compactness: 5, autonomy: 4, speed: 4 },
-    description_it: "Il bilanciamento perfetto tra potenza e portabilità.",
-    description_en: "The perfect balance between power and portability.",
+      "https://www.sportalcentro.it/wp-content/uploads/product-wizard/airbank_pulse_pro.png.webp",
+    price: 125,
+    link: "https://www.airbankpump.com/products/airbank-pulse-pro-rechargeable-pump",
+    discount: "sportalcentro",
+    ratings: { compactness: 4, autonomy: 4, speed: 4 },
+    description_it: "Il bilanciamento perfetto.",
+    description_en: "The perfect balance.",
   },
   {
     id: "ride-engine-air-pump",
     category: "pump",
-    matcher: {
-      // Priorità: Potenza e Autonomia (Massima)
-      pump_prio: ["power"],
-    },
+    matcher: { pump_prio: ["power"] },
     title: "Ride Engine Air Pump",
     image:
-      "https://www.sportalcentro.it/wp-content/uploads/product-wizard/ridengine_air.jpg", // Inserisci URL reale
-    price: 249,
-    link: "#",
-    discount: "SPORTALCENTRO",
-    ratings: { compactness: 3, autonomy: 4, speed: 4 },
-    description_it:
-      "Heavy duty. Per chi deve gonfiare più tavole consecutivamente.",
-    description_en:
-      "Heavy duty. For those who need to inflate multiple boards in a row.",
+      "https://www.sportalcentro.it/wp-content/uploads/product-wizard/ridengine_air.jpg",
+    price: 218,
+    link: "https://www.kiteworldshop.com/it/wing-surf-pumps/11306-ride-engine-air-box-mini-electric-pump-840362193367.html?affp=27205",
+    discount: "",
+    ratings: { compactness: 2, autonomy: 5, speed: 5 },
+    description_it: "Heavy duty per uso intensivo.",
+    description_en: "Heavy duty for intensive use.",
   },
 ];
 
@@ -212,10 +201,21 @@ const translations = {
     },
     // Etichette per le specifiche tecniche (Ratings)
     labels: {
-      stability: "Stabilità",
+      // Generici / Comuni
       speed: "Velocità",
+
+      // Specifici Hydrofoil
+      lift: "Portanza",
+      control: "Controllo",
+
+      // Specifici SUP
+      stability: "Stabilità",
+      stiffness: "Rigidità",
+
+      // Specifici Pompe
       compactness: "Compattezza",
       autonomy: "Autonomia",
+      noise: "Silenziosità", // 5 stelle = molto silenziosa
     },
   },
   en: {
@@ -306,10 +306,21 @@ const translations = {
       p_power: "Autonomy & Power",
     },
     labels: {
-      stability: "Stability",
+      // Common
       speed: "Speed",
+
+      // Hydrofoil
+      lift: "Lift",
+      control: "Control",
+
+      // SUP
+      stability: "Stability",
+      stiffness: "Stiffness",
+
+      // Pumps
       compactness: "Compactness",
       autonomy: "Autonomy",
+      noise: "Quietness",
     },
   },
 };
