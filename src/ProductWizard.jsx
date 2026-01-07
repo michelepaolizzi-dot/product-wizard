@@ -1,6 +1,43 @@
 import React, { useState, useEffect } from "react";
 import "./ProductWizard.css";
 
+/* =============================================================================
+  GUIDA CONFIGURAZIONE JSON PRODOTTI
+  =============================================================================
+  Se carichi i prodotti da un file JSON esterno, ogni oggetto nell'array deve 
+  rispettare questa struttura.
+  
+  Esempio di Sintassi:
+  [
+    {
+      "id": "univoco-prodotto-01",        // (String) ID univoco
+      "category": "foil",                 // (String) 'foil', 'sup' o 'pump'
+      "matcher": {                        // (Object) Logica di abbinamento
+        "sport": ["wing", "surf"],        // Chiave domanda: [Valori accettati]
+        "foil_level": ["beg", "int"],     // Se l'utente risponde "beg" o "int", questo prodotto è valido
+        "wing_wind": "light"              // Può essere anche una stringa singola
+      },
+      "title": "Nome del Prodotto",       // (String) Titolo visibile
+      "image": "https://url-immagine...", // (String) URL immagine
+      "price": 1200,                      // (Number) Prezzo
+      "link": "https://shop-link...",     // (String) Link all'acquisto
+      "discount": "CODICE_SCONTO",        // (String, Opzionale) Codice sconto
+      "specs": {                          // (Object, Opzionale) Specifiche tecniche
+        "Mast": "85cm",
+        "Front Wing": "1000cm2"
+      },
+      "ratings": {                        // (Object, Opzionale) Valori da 1 a 5 per le stelle
+        "stability": 5,
+        "speed": 3,
+        "compactness": 4
+      },
+      "description_it": "Testo Italiano", // (String) Descrizione IT
+      "description_en": "English Text"    // (String) Descrizione EN
+    }
+  ]
+  =============================================================================
+*/
+
 const LOGO_URL =
   "https://www.sportalcentro.it/wp-content/uploads/product-wizard/michele_profilo.jpg";
 
@@ -10,7 +47,7 @@ const WA_NUMBER = "393331234567";
 
 const INITIAL_DATA = [
   // --- HYDROFOIL (Criteria: Lift, Speed, Control) ---
-  {
+  /* {
     id: "sab-leviathan-1350",
     category: "foil",
     matcher: { sport: ["wing", "surf", "pump"] },
@@ -21,7 +58,6 @@ const INITIAL_DATA = [
     link: "#",
     discount: "SPORTALCENTRO",
     specs: { Mast: "83cm", Wing: "1350 cm²" },
-    // RATINGS SPECIFICI PER FOIL
     ratings: { lift: 5, speed: 3, control: 4 },
     description_it: "Il Re del Glide. Perfetto per Wing col vento leggero.",
     description_en: "The King of Glide. Perfect for Lightwind Wing.",
@@ -37,10 +73,327 @@ const INITIAL_DATA = [
     link: "#",
     discount: "SPORTALCENTRO",
     specs: { Mast: "83cm", Wing: "1350 cm²" },
-    // RATINGS SPECIFICI PER FOIL
     ratings: { lift: 3, speed: 5, control: 5 },
     description_it: "Versatile e veloce.",
     description_en: "Versatile and fast.",
+  },*/
+  {
+    id: "sab-leviathan-1550-73",
+    category: "foil",
+    matcher: {
+      foil_level: ["beg", "int", "adv"],
+      sport: ["pump", "sup"],
+    },
+    title: "Sabfoil Leviathan 1550/73",
+    image:
+      "https://www.sportalcentro.it/wp-content/uploads/product-wizard/sabfoil_lev_1350_1550_73.jpg",
+    price: 1529,
+    link: "https://sabfoil.com/it/products/KL_1550-663-370_73P",
+    discount: "sac10",
+    specs: { Mast: "83cm", Wing: "1350 cm²" },
+    ratings: { lift: 5, speed: 3, control: 4 },
+    description_it: "Il Re del Glide. Perfetto per Wing col vento leggero.",
+    description_en: "The King of Glide. Perfect for Lightwind Wing.",
+  },
+  {
+    id: "sab-leviathan-1350-73",
+    category: "foil",
+    matcher: {
+      foil_level: ["beg", "int", "adv"],
+      sport: ["pump", "sup"],
+    },
+    title: "Sabfoil Leviathan 1350/73",
+    image:
+      "https://www.sportalcentro.it/wp-content/uploads/product-wizard/sabfoil_lev_1350_1550_73.jpg",
+    price: 1529,
+    link: "https://sabfoil.com/it/products/KL_1550-663-370_73P",
+    discount: "sac10",
+    specs: { Mast: "83cm", Wing: "1350 cm²" },
+    ratings: { lift: 5, speed: 3, control: 4 },
+    description_it: "Il Re del Glide. Perfetto per Wing col vento leggero.",
+    description_en: "The King of Glide. Perfect for Lightwind Wing.",
+  },
+  {
+    id: "sab-leviathanPRO-1360-73",
+    category: "foil",
+    matcher: {
+      foil_level: ["int", "adv"],
+      sport: ["pump", "sup"],
+    },
+    title: "Sabfoil Leviathan PRO 1360/73",
+    image:
+      "https://www.sportalcentro.it/wp-content/uploads/product-wizard/sabfoil_lev_1360PRO_73.webp",
+    price: 1549,
+    link: "https://sabfoil.com/it/products/KLP_1360-663-370_73",
+    discount: "sac10",
+    specs: { Mast: "83cm", Wing: "1350 cm²" },
+    ratings: { lift: 5, speed: 3, control: 4 },
+    description_it: "Il Re del Glide. Perfetto per Wing col vento leggero.",
+    description_en: "The King of Glide. Perfect for Lightwind Wing.",
+  },
+  {
+    id: "sab-RazorBB_1077_75",
+    category: "foil",
+    matcher: {
+      foil_level: ["int", "adv"],
+      sport: ["pump", "sup", "wing"],
+      wing_wind: ["light"],
+    },
+    title: "Sabfoil Razor Blackbird 1077/75",
+    image:
+      "https://www.sportalcentro.it/wp-content/uploads/product-wizard/sabfoil_razorBB_977_1077_75.webp",
+    price: 1899,
+    link: "https://sabfoil.com/it/products/KR-1077-375-75-BB",
+    discount: "sac10",
+    specs: { Mast: "83cm", Wing: "1350 cm²" },
+    ratings: { lift: 5, speed: 3, control: 4 },
+    description_it: "Il Re del Glide. Perfetto per Wing col vento leggero.",
+    description_en: "The King of Glide. Perfect for Lightwind Wing.",
+  },
+  {
+    id: "sab-RazorBB_977_75",
+    category: "foil",
+    matcher: {
+      foil_level: ["int", "adv"],
+      sport: ["wing"],
+      wing_wind: ["light", "all"],
+    },
+    title: "Sabfoil Razor Blackbird 977/75",
+    image:
+      "https://www.sportalcentro.it/wp-content/uploads/product-wizard/sabfoil_razorBB_977_1077_75.webp",
+    price: 1889,
+    link: "https://sabfoil.com/it/products/KR-977-375-75-BB",
+    discount: "sac10",
+    specs: { Mast: "83cm", Wing: "1350 cm²" },
+    ratings: { lift: 5, speed: 3, control: 4 },
+    description_it: "Il Re del Glide. Perfetto per Wing col vento leggero.",
+    description_en: "The King of Glide. Perfect for Lightwind Wing.",
+  },
+  {
+    id: "sab-RazorPRO_975_73",
+    category: "foil",
+    matcher: {
+      foil_level: ["int", "adv"],
+      sport: ["wing"],
+      wing_wind: ["light", "all"],
+    },
+    title: "Sabfoil Razor PRO 975/73",
+    image:
+      "https://www.sportalcentro.it/wp-content/uploads/product-wizard/sabfoil_razorPRO_975_1075_83.webp",
+    price: 1499,
+    link: "https://sabfoil.com/it/products/KRP_975-653-370_83",
+    discount: "sac10",
+    specs: { Mast: "83cm", Wing: "1350 cm²" },
+    ratings: { lift: 5, speed: 3, control: 4 },
+    description_it: "Il Re del Glide. Perfetto per Wing col vento leggero.",
+    description_en: "The King of Glide. Perfect for Lightwind Wing.",
+  },
+
+  {
+    id: "sab-RazorPRO_1075_73",
+    category: "foil",
+    matcher: {
+      foil_level: ["int", "adv"],
+      sport: ["wing"],
+      wing_wind: ["light"],
+    },
+    title: "Sabfoil Razor PRO 1075/73",
+    image:
+      "https://www.sportalcentro.it/wp-content/uploads/product-wizard/sabfoil_razorPRO_975_1075_83.webp",
+    price: 1519,
+    link: "https://sabfoil.com/it/products/KRP_1075-653-370_83",
+    discount: "sac10",
+    specs: { Mast: "83cm", Wing: "1350 cm²" },
+    ratings: { lift: 5, speed: 3, control: 4 },
+    description_it: "Il Re del Glide. Perfetto per Wing col vento leggero.",
+    description_en: "The King of Glide. Perfect for Lightwind Wing.",
+  },
+  {
+    id: "sab-BalzPRO_909_83",
+    category: "foil",
+    matcher: {
+      foil_level: ["int", "adv"],
+      sport: ["wing"],
+      wing_wind: ["wave", "free"],
+    },
+    title: "Sabfoil Balz PRO 909/73",
+    image:
+      "https://www.sportalcentro.it/wp-content/uploads/product-wizard/sabfoil_balzPRO_909_808_83.jpg",
+    price: 1569,
+    link: "https://sabfoil.com/it/products/BALZ_909-370-663_83",
+    discount: "sac10",
+    specs: { Mast: "83cm", Wing: "1350 cm²" },
+    ratings: { lift: 5, speed: 3, control: 4 },
+    description_it: "Il Re del Glide. Perfetto per Wing col vento leggero.",
+    description_en: "The King of Glide. Perfect for Lightwind Wing.",
+  },
+  {
+    id: "sab-BalzPRO_808_83",
+    category: "foil",
+    matcher: {
+      foil_level: ["int", "adv"],
+      sport: ["wing"],
+      wing_wind: ["wave", "free"],
+    },
+    title: "Sabfoil Balz PRO 808/73",
+    image:
+      "https://www.sportalcentro.it/wp-content/uploads/product-wizard/sabfoil_balzPRO_909_808_83.jpg",
+    price: 1549,
+    link: "https://sabfoil.com/it/products/BALZ_808-370-663_83",
+    discount: "sac10",
+    specs: { Mast: "83cm", Wing: "1350 cm²" },
+    ratings: { lift: 5, speed: 3, control: 4 },
+    description_it: "Il Re del Glide. Perfetto per Wing col vento leggero.",
+    description_en: "The King of Glide. Perfect for Lightwind Wing.",
+  },
+  {
+    id: "sab-BalzPROBB_905_85",
+    category: "foil",
+    matcher: {
+      foil_level: ["int", "adv"],
+      sport: ["wing"],
+      wing_wind: ["wave", "free"],
+    },
+    title: "Sabfoil Balz PRO Blackbird 905/85",
+    image:
+      "https://www.sportalcentro.it/wp-content/uploads/product-wizard/sabfoil_balzBB_905_805_85.webp",
+    price: 1879,
+    link: "https://sabfoil.com/it/products/kit-blackbird-Balz-Pro-905-Mast-85",
+    discount: "sac10",
+    specs: { Mast: "83cm", Wing: "1350 cm²" },
+    ratings: { lift: 5, speed: 3, control: 4 },
+    description_it: "Il Re del Glide. Perfetto per Wing col vento leggero.",
+    description_en: "The King of Glide. Perfect for Lightwind Wing.",
+  },
+  {
+    id: "sab-BalzPROBB_805_85",
+    category: "foil",
+    matcher: {
+      foil_level: ["int", "adv"],
+      sport: ["wing"],
+      wing_wind: ["wave", "free"],
+    },
+    title: "Sabfoil Balz PRO Blackbird 805/85",
+    image:
+      "https://www.sportalcentro.it/wp-content/uploads/product-wizard/sabfoil_balzBB_905_805_85.webp",
+    price: 1869,
+    link: "https://sabfoil.com/it/products/KBZ-805-365-85-BB",
+    discount: "sac10",
+    specs: { Mast: "83cm", Wing: "1350 cm²" },
+    ratings: { lift: 5, speed: 3, control: 4 },
+    description_it: "Il Re del Glide. Perfetto per Wing col vento leggero.",
+    description_en: "The King of Glide. Perfect for Lightwind Wing.",
+  },
+  {
+    id: "sab-leviathanEasyRiding950_83",
+    category: "foil",
+    matcher: {
+      foil_level: ["beg"],
+      sport: ["wing"],
+      wing_wind: ["all"],
+    },
+    title: "Sabfoil Leviathan EasyRiding 950/83",
+    image:
+      "https://www.sportalcentro.it/wp-content/uploads/product-wizard/sabfoil_lev_easy_73.jpg",
+    price: 1419,
+    link: "https://sabfoil.com/it/products/KL_950-703-425_83",
+    discount: "sac10",
+    specs: { Mast: "83cm", Wing: "1350 cm²" },
+    ratings: { lift: 5, speed: 3, control: 4 },
+    description_it: "Il Re del Glide. Perfetto per Wing col vento leggero.",
+    description_en: "The King of Glide. Perfect for Lightwind Wing.",
+  },
+  {
+    id: "sab-leviathanEasyRiding1150_83",
+    category: "foil",
+    matcher: {
+      foil_level: ["beg"],
+      sport: ["wing"],
+      wing_wind: ["all", "light"],
+    },
+    title: "Sabfoil Leviathan EasyRiding 1150/83",
+    image:
+      "https://www.sportalcentro.it/wp-content/uploads/product-wizard/sabfoil_lev_easy_73.jpg",
+    price: 1449,
+    link: "https://sabfoil.com/it/products/KL_1150-703-425_83",
+    discount: "sac10",
+    specs: { Mast: "83cm", Wing: "1350 cm²" },
+    ratings: { lift: 5, speed: 3, control: 4 },
+    description_it: "Il Re del Glide. Perfetto per Wing col vento leggero.",
+    description_en: "The King of Glide. Perfect for Lightwind Wing.",
+  },
+  {
+    id: "indiana-manta-xl-75",
+    category: "foil",
+    matcher: {
+      foil_level: ["beg", "int", "adv"],
+      sport: ["pump"],
+    },
+    title: "Indiana Manta XL",
+    image:
+      "https://www.sportalcentro.it/wp-content/uploads/product-wizard/indiana_mantaxl_alu.webp",
+    price: 1689,
+    link: "https://indiana-paddlesurf.com/en_eu/indiana-pump-foil-manta-xl-complete-3629sq.html",
+    discount: "sac10",
+    specs: { Mast: "83cm", Wing: "1350 cm²" },
+    ratings: { lift: 5, speed: 3, control: 4 },
+    description_it: "Il Re del Glide. Perfetto per Wing col vento leggero.",
+    description_en: "The King of Glide. Perfect for Lightwind Wing.",
+  },
+  {
+    id: "indiana-condor-xl-75",
+    category: "foil",
+    matcher: {
+      foil_level: ["int", "adv"],
+      sport: ["pump"],
+    },
+    title: "Indiana Condor XL",
+    image:
+      "https://www.sportalcentro.it/wp-content/uploads/product-wizard/indiana_condorxl_alu.webp",
+    price: 1749,
+    link: "https://indiana-paddlesurf.com/en_eu/3615sq-3615sq.html",
+    discount: "sac10",
+    specs: { Mast: "83cm", Wing: "1350 cm²" },
+    ratings: { lift: 5, speed: 3, control: 4 },
+    description_it: "Il Re del Glide. Perfetto per Wing col vento leggero.",
+    description_en: "The King of Glide. Perfect for Lightwind Wing.",
+  },
+  {
+    id: "indiana-barracuda-xl-75",
+    category: "foil",
+    matcher: {
+      foil_level: ["beg", "int", "adv"],
+      sport: ["pump", "sup"],
+    },
+    title: "Indiana Barracuda XL / 75",
+    image:
+      "https://www.sportalcentro.it/wp-content/uploads/product-wizard/indiana_barracuda.webp",
+    price: 2239,
+    link: "https://indiana-paddlesurf.com/en_eu/indiana-pump-foil-barracuda-xl-complete-3624sq.html",
+    discount: "sac10",
+    specs: { Mast: "83cm", Wing: "1350 cm²" },
+    ratings: { lift: 5, speed: 3, control: 4 },
+    description_it: "Il Re del Glide. Perfetto per Wing col vento leggero.",
+    description_en: "The King of Glide. Perfect for Lightwind Wing.",
+  },
+  {
+    id: "indiana-barracuda-xl-85",
+    category: "foil",
+    matcher: {
+      foil_level: ["beg", "int", "adv"],
+      sport: ["wing"],
+      wing_wind: ["light"],
+    },
+    title: "Indiana Barracuda XL / 85",
+    image:
+      "https://www.sportalcentro.it/wp-content/uploads/product-wizard/indiana_barracuda.webp",
+    price: 2269,
+    link: "https://indiana-paddlesurf.com/en_eu/indiana-downwind-foil-barracuda-xl-complete-3623sq.html",
+    discount: "sac10",
+    specs: { Mast: "83cm", Wing: "1350 cm²" },
+    ratings: { lift: 5, speed: 3, control: 4 },
+    description_it: "Il Re del Glide. Perfetto per Wing col vento leggero.",
+    description_en: "The King of Glide. Perfect for Lightwind Wing.",
   },
 
   // --- SUP GONFIABILI (Criteria: Stability, Stiffness, Speed) ---
@@ -57,7 +410,6 @@ const INITIAL_DATA = [
     price: 399,
     link: "#",
     discount: "SPORTALCENTRO",
-    // RATINGS SPECIFICI PER SUP
     ratings: { stability: 5, stiffness: 3, speed: 2 },
     description_it: "La tavola tuttofare per eccellenza.",
     description_en: "The ultimate do-it-all board.",
@@ -74,7 +426,6 @@ const INITIAL_DATA = [
     price: 110,
     link: "https://www.airbankpump.com/products/airbank-puffer-pro-rechargeable-pump",
     discount: "sportalcentro",
-    // RATINGS SPECIFICI PER POMPE
     ratings: { compactness: 5, autonomy: 3, noise: 4 },
     description_it: "La pompa più compatta al mondo.",
     description_en: "The world's most compact pump.",
@@ -126,7 +477,6 @@ const translations = {
     contact_desc:
       "Nessun prodotto corrisponde esattamente a TUTTI i criteri. Contattaci!",
 
-    // WHATSAPP
     wa_btn: "Hai dubbi? Scrivimi su WhatsApp",
     wa_msg:
       "Ciao Michele, ho fatto il test dell'attrezzatura ma ho ancora qualche dubbio...",
@@ -136,7 +486,7 @@ const translations = {
       sport: "Quale disciplina Hydrofoil?",
       f_weight: "Qual è il tuo peso?",
       f_level: "Qual è il tuo livello?",
-      w_wind: "Vento prevalente nel tuo spot?",
+      w_wind: "Quale sarà l'utilizzo prevalente?", // MODIFICATO
       s_wave: "Che onde surfi principalmente?",
       p_goal: "Obiettivo nel Pumping?",
       dw_lvl: "Esperienza nel Downwind?",
@@ -145,7 +495,6 @@ const translations = {
       sup_h: "Quanto sei alto/a?",
       sup_loc: "Dove lo userai?",
       sup_bud: "Il tuo budget?",
-      // --- NUOVE DOMANDE PUMP ---
       pump_target: "Cosa devi gonfiare?",
       pump_prio: "Qual è la tua priorità?",
     },
@@ -165,9 +514,15 @@ const translations = {
       adv: "Avanzato",
       exp: "Esperto",
       learn: "Sto imparando",
-      w_light: "Leggero (Lightwind)",
-      w_all: "Medio / All-round",
-      w_strong: "Forte / Wave",
+
+      // --- OPZIONI WING AGGIORNATE ---
+      w_light: "Vento leggero",
+      w_wave: "Wave / Onde",
+      w_free: "Freestyle",
+      w_all: "All-round / Un po' di tutto",
+      // -------------------------------
+
+      w_strong: "Forte / Wave", // (Mantenuto per compatibilità, ma non usato nel nuovo menu)
       wav_small: "Piccole / Lente",
       wav_fast: "Veloci / Tubanti",
       g_learn: "Imparare (Dock Start)",
@@ -191,7 +546,6 @@ const translations = {
       b_low: "Meno di 300 €",
       b_mid: "300 - 600 €",
       b_high: "Più di 600 €",
-      // --- OPZIONI PUMP ---
       t_sup: "SUP",
       t_kayak: "Kayak",
       t_wing: "Wing / Kite",
@@ -199,23 +553,15 @@ const translations = {
       p_compact: "Minimo ingombro",
       p_power: "Autonomia e potenza",
     },
-    // Etichette per le specifiche tecniche (Ratings)
     labels: {
-      // Generici / Comuni
       speed: "Velocità",
-
-      // Specifici Hydrofoil
       lift: "Portanza",
       control: "Controllo",
-
-      // Specifici SUP
       stability: "Stabilità",
       stiffness: "Rigidità",
-
-      // Specifici Pompe
       compactness: "Compattezza",
       autonomy: "Autonomia",
-      noise: "Silenziosità", // 5 stelle = molto silenziosa
+      noise: "Silenziosità",
     },
   },
   en: {
@@ -242,7 +588,7 @@ const translations = {
       sport: "Which Hydrofoil discipline?",
       f_weight: "Your Weight?",
       f_level: "Your Skill Level?",
-      w_wind: "Prevailing wind condition?",
+      w_wind: "What will be your main use?", // UPDATED
       s_wave: "Main wave type?",
       p_goal: "Pumping Goal?",
       dw_lvl: "Downwind Experience?",
@@ -251,7 +597,6 @@ const translations = {
       sup_h: "Your Height?",
       sup_loc: "Location?",
       sup_bud: "Budget?",
-      // --- NEW PUMP QUESTIONS ---
       pump_target: "What do you need to inflate?",
       pump_prio: "What is your priority?",
     },
@@ -271,8 +616,14 @@ const translations = {
       adv: "Advanced",
       exp: "Expert",
       learn: "Learning",
-      w_light: "Lightwind",
-      w_all: "Medium / All-round",
+
+      // --- UPDATED WING OPTIONS ---
+      w_light: "Light wind",
+      w_wave: "Wave",
+      w_free: "Freestyle",
+      w_all: "All-round / Mix",
+      // ----------------------------
+
       w_strong: "Strong / Wave",
       wav_small: "Small / Slow",
       wav_fast: "Fast / Hollow",
@@ -297,7 +648,6 @@ const translations = {
       b_low: "< 300 €",
       b_mid: "300 - 600 €",
       b_high: "> 600 €",
-      // --- PUMP OPTIONS ---
       t_sup: "SUP",
       t_kayak: "Kayak",
       t_wing: "Wing / Kite",
@@ -306,18 +656,11 @@ const translations = {
       p_power: "Autonomy & Power",
     },
     labels: {
-      // Common
       speed: "Speed",
-
-      // Hydrofoil
       lift: "Lift",
       control: "Control",
-
-      // SUP
       stability: "Stability",
       stiffness: "Stiffness",
-
-      // Pumps
       compactness: "Compactness",
       autonomy: "Autonomy",
       noise: "Quietness",
@@ -375,7 +718,7 @@ const ProductWizard = () => {
           ],
         };
 
-      // Step 2 (Peso) rimosso. Gli step successivi sono shiftati indietro di 1.
+      // Step 2 (Peso) rimosso.
 
       if (answers.sport === "wing") {
         if (step === 2)
@@ -388,14 +731,16 @@ const ProductWizard = () => {
               { v: "adv", l: t.options.adv },
             ],
           };
+        // STEP 3: Domanda Modificata (Utilizzo / Vento)
         if (step === 3)
           return {
             key: "wing_wind",
             text: t.questions.w_wind,
             opts: [
-              { v: "light", l: t.options.w_light },
-              { v: "all", l: t.options.w_all },
-              { v: "strong", l: t.options.w_strong },
+              { v: "light", l: t.options.w_light }, // Vento leggero
+              { v: "wave", l: t.options.w_wave }, // Wave / Onde
+              { v: "free", l: t.options.w_free }, // Freestyle
+              { v: "all", l: t.options.w_all }, // All-round
             ],
           };
       }
@@ -443,11 +788,10 @@ const ProductWizard = () => {
             ],
           };
       }
-      // --- NUOVA LOGICA SUP (HYDROFOIL) ---
       if (answers.sport === "sup") {
         if (step === 2)
           return {
-            key: "foil_level", // Usa la stessa chiave se vuoi riutilizzare i prodotti che matchano su 'foil_level'
+            key: "foil_level",
             text: t.questions.f_level,
             opts: [
               { v: "beg", l: t.options.beg },
@@ -556,7 +900,6 @@ const ProductWizard = () => {
       if (next.sport === "surf" && step === 3) done = true;
       if (next.sport === "pump" && step === 2) done = true;
       if (next.sport === "dw" && step === 2) done = true;
-      // SUP (Foil) ora finisce allo step 2 dopo la domanda sul livello
       if (next.sport === "sup" && step === 2) done = true;
     }
 
@@ -593,13 +936,12 @@ const ProductWizard = () => {
   };
   const q = results ? null : getQuestion();
 
-  // Calcolo progresso aggiornato
+  // Calcolo progresso
   let maxSteps = 3;
   if (answers.category === "sup") maxSteps = 5;
   else if (answers.category === "pump") maxSteps = 2;
   else if (answers.sport === "wing" || answers.sport === "surf") maxSteps = 3;
   else if (answers.sport === "pump" || answers.sport === "dw") maxSteps = 2;
-  // Per SUP Foil abbiamo 2 step totali (Sport -> Livello)
   else if (answers.sport === "sup") maxSteps = 2;
 
   const progress = Math.min((step / maxSteps) * 100, 100);
