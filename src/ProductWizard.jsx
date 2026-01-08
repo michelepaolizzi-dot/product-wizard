@@ -1121,12 +1121,13 @@ const ProductWizard = () => {
 
                       {displayedResults.map((result) => (
                         <div key={result.id} className="result-item">
-                          {/* --- IMMAGINE (Invariata) --- */}
+                          {/* --- IMMAGINE (Ora cliccabile!) --- */}
                           <div className="image-container">
+                            {/* Link Badge YouTube (Nuova Scheda) */}
                             {result.youtube_link && (
                               <a
                                 href={result.youtube_link}
-                                target="_blank"
+                                target="_blank" // <--- APRE NUOVA SCHEDA
                                 rel="noreferrer"
                                 className="yt-badge"
                                 title={t.youtube_badge}
@@ -1140,10 +1141,23 @@ const ProductWizard = () => {
                                 {t.youtube_badge}
                               </a>
                             )}
-                            <img src={result.image} alt={result.title} />
+
+                            {/* Link Immagine Prodotto (Nuova Scheda) */}
+                            <a
+                              href={result.link}
+                              target="_blank" // <--- APRE NUOVA SCHEDA
+                              rel="noreferrer"
+                              className="img-link-wrapper" // Classe CSS opzionale per pulizia
+                              style={{
+                                display: "block",
+                                width: "100%",
+                                height: "100%",
+                              }}
+                            >
+                              <img src={result.image} alt={result.title} />
+                            </a>
                           </div>
 
-                          {/* --- CONTENUTO DESCRITTIVO (Pulito) --- */}
                           <div className="card-content">
                             <h2 className="prod-title">{result.title}</h2>
                             <p className="prod-desc">
@@ -1166,18 +1180,16 @@ const ProductWizard = () => {
                                     <strong>{v}</strong>
                                   </div>
                                 ))}
-                              {/* NOTA: Ho rimosso il prezzo da qui per metterlo sotto */}
                             </div>
                           </div>
 
-                          {/* --- NUOVA DEAL ZONE (Conversione) --- */}
+                          {/* --- DEAL ZONE --- */}
                           <div className="deal-zone">
                             <div className="deal-price">
                               <span>{t.price}:</span>
                               <strong>€{result.price}</strong>
                             </div>
 
-                            {/* Mostra il coupon ticket SOLO se c'è uno sconto */}
                             {result.discount && (
                               <div className="coupon-ticket">
                                 <span className="coupon-label">
@@ -1194,15 +1206,16 @@ const ProductWizard = () => {
                               </div>
                             )}
 
+                            {/* Link Pulsante Principale (Nuova Scheda) */}
                             <a
                               href={result.link}
-                              target="_blank"
+                              target="_blank" // <--- APRE NUOVA SCHEDA
                               rel="noreferrer"
                               className="deal-cta"
                             >
-{t.buy_btn} ➔  {/* Ho sostituito la manina con una freccia più pulita, se preferisci */}                            </a>
+                              {t.buy_btn} ➔
+                            </a>
                           </div>
-                          {/* ----------------------------------- */}
                         </div>
                       ))}
 
