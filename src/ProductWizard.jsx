@@ -43,7 +43,7 @@ const LOGO_URL =
 
 // --- CONFIGURAZIONE WHATSAPP ---
 // Inserisci qui il tuo numero col prefisso (es. 39 per l'Italia) senza spazi o +
-const WA_NUMBER = "393331234567";
+const WA_NUMBER = "393398307088";
 
 const YOUTUBE_VIDEO_ID = "rV2LbWP9GS8"; // Sostituisci questo con il tuo ID reale
 
