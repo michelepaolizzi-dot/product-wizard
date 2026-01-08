@@ -545,3 +545,19 @@
   height: 100%;
   border: none;
 }
+
+/* --- ETICHETTA BETA / PRIVATA --- */
+.beta-badge {
+  display: inline-block;
+  background-color: #fff3cd; /* Sfondo giallino chiaro */
+  color: #856404; /* Testo scuro per contrasto */
+  border: 1px solid #ffeeba;
+  padding: 8px 16px;
+  border-radius: 50px; /* Forma a pillola */
+  font-size: 0.75rem;
+  font-weight: 800; /* Molto grassetto */
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 25px; /* Spazio sotto prima della foto */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
