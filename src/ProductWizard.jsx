@@ -993,6 +993,12 @@ const ProductWizard = () => {
         {!started ? (
           /* === WELCOME SCREEN === */
           <div className="welcome-container fade-in">
+            {/* --- NUOVA ETICHETTA BETA --- */}
+            <div className="beta-badge">
+              🔒 PRELIMINARY VERSION V2.13 - DON'T SHARE
+            </div>
+            {/* ---------------------------- */}
+
             <div className="profile-hero">
               <img src={LOGO_URL} alt="Michele" className="profile-pic-large" />
               <span className="trust-badge">✅ {t.welcome.trust}</span>
