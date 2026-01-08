@@ -474,7 +474,7 @@ const translations = {
     price: "Prezzo",
     min_level: "Livello",
     discount_label: "CODICE SCONTO",
-    buy_btn: "Vedi Offerta",
+    buy_btn: "Offerta sul sito ufficiale",
     contact_title: "Nessun Risultato",
     contact_desc:
       "Nessun prodotto corrisponde esattamente a TUTTI i criteri. Contattaci!",
@@ -1121,6 +1121,7 @@ const ProductWizard = () => {
 
                       {displayedResults.map((result) => (
                         <div key={result.id} className="result-item">
+                          {/* --- IMMAGINE (Invariata) --- */}
                           <div className="image-container">
                             {result.youtube_link && (
                               <a
@@ -1142,6 +1143,7 @@ const ProductWizard = () => {
                             <img src={result.image} alt={result.title} />
                           </div>
 
+                          {/* --- CONTENUTO DESCRITTIVO (Pulito) --- */}
                           <div className="card-content">
                             <h2 className="prod-title">{result.title}</h2>
                             <p className="prod-desc">
@@ -1150,7 +1152,6 @@ const ProductWizard = () => {
                             </p>
 
                             <div className="specs-clean">
-                              {/* Visualizza i Rating (Stelle) se presenti */}
                               {result.ratings &&
                                 Object.entries(result.ratings).map(([k, v]) => (
                                   <div key={k} className="spec-row">
@@ -1158,7 +1159,6 @@ const ProductWizard = () => {
                                     <StarRating value={v} />
                                   </div>
                                 ))}
-                              {/* Visualizza le Specs testuali se presenti */}
                               {result.specs &&
                                 Object.entries(result.specs).map(([k, v]) => (
                                   <div key={k} className="spec-row">
@@ -1166,16 +1166,31 @@ const ProductWizard = () => {
                                     <strong>{v}</strong>
                                   </div>
                                 ))}
-                              <div className="spec-row highlight">
-                                <span>{t.price}</span>
-                                <strong>€{result.price}</strong>
-                              </div>
+                              {/* NOTA: Ho rimosso il prezzo da qui per metterlo sotto */}
+                            </div>
+                          </div>
+
+                          {/* --- NUOVA DEAL ZONE (Conversione) --- */}
+                          <div className="deal-zone">
+                            <div className="deal-price">
+                              <span>{t.price}:</span>
+                              <strong>€{result.price}</strong>
                             </div>
 
+                            {/* Mostra il coupon ticket SOLO se c'è uno sconto */}
                             {result.discount && (
-                              <div className="discount-clean">
-                                {t.discount_label}:{" "}
-                                <strong>{result.discount}</strong>
+                              <div className="coupon-ticket">
+                                <span className="coupon-label">
+                                  ✂️ {t.discount_label}
+                                </span>
+                                <span className="coupon-code">
+                                  {result.discount}
+                                </span>
+                                <div className="coupon-hint">
+                                  {lang === "it"
+                                    ? "Usa questo codice al checkout!"
+                                    : "Use this code at checkout!"}
+                                </div>
                               </div>
                             )}
 
@@ -1183,11 +1198,11 @@ const ProductWizard = () => {
                               href={result.link}
                               target="_blank"
                               rel="noreferrer"
-                              className="main-cta"
+                              className="deal-cta"
                             >
-                              {t.buy_btn}
-                            </a>
+{t.buy_btn} ➔  {/* Ho sostituito la manina con una freccia più pulita, se preferisci */}                            </a>
                           </div>
+                          {/* ----------------------------------- */}
                         </div>
                       ))}
 
