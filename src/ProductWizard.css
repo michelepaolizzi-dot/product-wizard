@@ -468,15 +468,53 @@
   padding: 0 10px;
 }
 
+/* --- NUOVO STILE PROMISE BOX --- */
 .promise-box {
-  background: #f0f8ff;
-  border: 1px dashed #007bff;
-  padding: 15px;
-  border-radius: 12px;
-  margin-bottom: 30px;
-  color: #0056b3;
+  background: #ffffff;
+  border: 1px solid #eef2f5;
+  border-left: 5px solid #007bff; /* Bordo laterale blu forte */
+  border-radius: 8px; /* Angoli leggermente arrotondati */
+  padding: 20px;
+  margin: 25px auto 35px; /* Spaziatura bilanciata */
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Spazio tra icona e testo */
+  text-align: left; /* Testo allineato a sinistra per leggibilità */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06); /* Ombra elegante */
+  max-width: 90%; /* Non toccare i bordi su mobile */
+  transition: transform 0.2s ease;
+}
+
+.promise-box:hover {
+  transform: translateY(-2px); /* Piccolo movimento al mouseover */
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.promise-icon {
+  font-size: 2rem; /* Icona grande */
+  background: #f0f7ff; /* Sfondo pallino icona */
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%; /* Cerchio perfetto */
+  flex-shrink: 0; /* Impedisce all'icona di schiacciarsi */
+}
+
+.promise-content strong {
+  display: block;
+  font-size: 1.1rem;
+  color: #222;
+  margin-bottom: 4px;
+  font-weight: 800;
+}
+
+.promise-content p {
+  margin: 0;
+  color: #555;
   font-size: 0.95rem;
-  font-weight: 500;
+  line-height: 1.4;
 }
 
 /* Pulsante Start gigante */
@@ -591,7 +629,7 @@
   color: #333;
   cursor: pointer;
   outline: none;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
   transition: all 0.2s;
   /* Aggiungi una freccina personalizzata */
   background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23333%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
