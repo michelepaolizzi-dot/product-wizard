@@ -1036,9 +1036,15 @@ const ProductWizard = () => {
             </div>
             {/* ================================== */}
 
+            {/* --- NUOVO PROMISE BOX "INCISIVO" --- */}
             <div className="promise-box">
-              <p>{t.welcome.promise}</p>
+              <div className="promise-icon">🎯</div>
+              <div className="promise-content">
+                <strong>Obiettivo: Zero Errori.</strong>
+                <p>{t.welcome.promise}</p>
+              </div>
             </div>
+            {/* ------------------------------------ */}
 
             <button
               className="start-btn pulse-animation"
