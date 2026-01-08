@@ -482,6 +482,9 @@ const translations = {
     wa_btn: "Hai dubbi? Scrivimi su WhatsApp",
     wa_msg:
       "Ciao Michele, ho fatto il test dell'attrezzatura ma ho ancora qualche dubbio...",
+    sort_label: "Ordina per:",
+    sort_price_asc: "Prezzo: Basso → Alto",
+    sort_price_desc: "Prezzo: Alto → Basso",
 
     questions: {
       cat: "Cosa stai cercando?",
@@ -596,6 +599,10 @@ const translations = {
     wa_msg:
       "Hi Michele, I took the gear quiz but I still have some questions...",
 
+    sort_label: "Sort by:",
+    sort_price_asc: "Price: Low to High",
+    sort_price_desc: "Price: High to Low",
+
     questions: {
       cat: "What are you looking for?",
       sport: "Which Hydrofoil discipline?",
@@ -706,6 +713,7 @@ const ProductWizard = () => {
   const [answers, setAnswers] = useState({});
   const [results, setResults] = useState(null);
   const [products, setProducts] = useState([]);
+  const [sortOrder, setSortOrder] = useState("price_asc");
   const t = translations[lang];
 
   useEffect(() => {
@@ -969,6 +977,16 @@ const ProductWizard = () => {
 
   const progress = Math.min((step / maxSteps) * 100, 100);
 
+  // --- NUOVO: Logica di ordinamento dinamica ---
+  // Creiamo una copia per non mutare lo stato originale e la ordiniamo
+  let displayedResults = results ? [...results] : [];
+  if (sortOrder === "price_asc") {
+    displayedResults.sort((a, b) => a.price - b.price);
+  } else if (sortOrder === "price_desc") {
+    displayedResults.sort((a, b) => b.price - a.price);
+  }
+  // ---------------------------------------------
+
   return (
     <div className="wizard-card">
       <div className="wizard-header">
@@ -1074,7 +1092,28 @@ const ProductWizard = () => {
                     <div className="result-list-container">
                       <p className="result-intro">{t.result_msg}</p>
 
-                      {results.map((result) => (
+                      {/* --- NUOVO: CONTROLLI DI ORDINAMENTO --- */}
+                      <div className="sort-controls">
+                        <label htmlFor="sort-select">{t.sort_label}</label>
+                        <div className="select-wrapper">
+                          <select
+                            id="sort-select"
+                            value={sortOrder}
+                            onChange={(e) => setSortOrder(e.target.value)}
+                            className="sort-select"
+                          >
+                            <option value="price_asc">
+                              {t.sort_price_asc}
+                            </option>
+                            <option value="price_desc">
+                              {t.sort_price_desc}
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                      {/* --------------------------------------- */}
+
+                      {displayedResults.map((result) => (
                         <div key={result.id} className="result-item">
                           <div className="image-container">
                             {result.youtube_link && (
