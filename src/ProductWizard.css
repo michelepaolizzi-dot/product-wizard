@@ -414,3 +414,134 @@
     border-radius: 50%;
   }
 }
+
+/* --- WELCOME SCREEN STYLES --- */
+
+.welcome-container {
+  text-align: center;
+  padding: 10px 10px 30px 10px;
+}
+
+.profile-hero {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.profile-pic-large {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 5px solid #fff;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  object-fit: cover;
+}
+
+.trust-badge {
+  position: absolute;
+  bottom: 0;
+  right: -20px;
+  background: #ffffff;
+  color: #28a745;
+  font-size: 0.8rem;
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid #eef2f5;
+  white-space: nowrap;
+}
+
+.hero-title {
+  font-size: 1.8rem;
+  color: #222;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 15px;
+}
+
+.hero-subtitle {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 25px;
+  line-height: 1.5;
+  padding: 0 10px;
+}
+
+.promise-box {
+  background: #f0f8ff;
+  border: 1px dashed #007bff;
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+  color: #0056b3;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* Pulsante Start gigante */
+.start-btn {
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  color: white;
+  border: none;
+  padding: 20px 40px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 50px;
+  cursor: pointer;
+  width: 100%;
+  max-width: 300px;
+  box-shadow: 0 10px 30px rgba(0, 123, 255, 0.3);
+  transition: transform 0.2s, box-shadow 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.start-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 40px rgba(0, 123, 255, 0.4);
+}
+
+.start-btn:active {
+  transform: translateY(-1px);
+}
+
+/* Animazione pulsante */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 15px rgba(0, 123, 255, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 123, 255, 0);
+  }
+}
+
+.pulse-animation {
+  animation: pulse 2s infinite;
+}
+
+/* --- WELCOME VIDEO RESPONSIVO --- */
+.welcome-video-container {
+  position: relative;
+  width: 100%;
+  /* Questo padding-bottom crea un rapporto 16:9 (9 diviso 16 = 56.25%) */
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  border-radius: 12px; /* Bordi arrotondati per un look moderno */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15); /* Leggera ombra sotto il video */
+  margin-bottom: 25px; /* Spazio prima del box successivo */
+  background: #000; /* Sfondo nero mentre carica */
+}
+
+.welcome-video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
