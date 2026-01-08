@@ -768,7 +768,7 @@
   width: 100%;
   box-sizing: border-box; /* <--- QUESTA è la riga fondamentale che risolve lo sbordamento */
   padding: 16px 20px;
-  
+
   background: linear-gradient(to bottom, #2ecc71 0%, #27ae60 100%);
   color: white;
   text-decoration: none;
@@ -778,7 +778,7 @@
   letter-spacing: 0.5px;
   border-radius: 12px;
   border-bottom: 4px solid #1e8449;
-  
+
   box-shadow: 0 4px 10px rgba(46, 204, 113, 0.3);
   transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
   position: relative;
