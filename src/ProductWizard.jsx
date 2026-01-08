@@ -45,6 +45,8 @@ const LOGO_URL =
 // Inserisci qui il tuo numero col prefisso (es. 39 per l'Italia) senza spazi o +
 const WA_NUMBER = "393331234567";
 
+const YOUTUBE_VIDEO_ID = "rV2LbWP9GS8"; // Sostituisci questo con il tuo ID reale
+
 const INITIAL_DATA = [
   // --- HYDROFOIL (Criteria: Lift, Speed, Control) ---
   /* {
@@ -462,7 +464,7 @@ const INITIAL_DATA = [
 
 const translations = {
   it: {
-    app_title: "I migliori provati da Michele",
+    app_title: "I migliori provati da Michele - PRELIMINARY V.3.12",
     subtitle: "Rispondi a poche domande e trova il setup perfetto",
     step: "Passo",
     back: "Indietro",
@@ -563,9 +565,20 @@ const translations = {
       autonomy: "Autonomia",
       noise: "Silenziosità",
     },
+    // ... (altre traduzioni esistenti)
+    welcome: {
+      title: "Non sprecare soldi nell'attrezzatura sbagliata.",
+      subtitle:
+        "Ho testato centinaia di prodotti su YouTube per capire cosa funziona davvero.",
+      promise:
+        "Rispondi a 4 domande e scopri il setup perfetto per il tuo livello.",
+      cta: "TROVA IL MIO SETUP",
+      trust: "Test indipendenti al 100%",
+    },
+    // ...
   },
   en: {
-    app_title: "The best tested by Michele",
+    app_title: "The best tested by Michele - PRELIMINARY V.3.12",
     subtitle: "Answer a few questions to find your setup",
     step: "Step",
     back: "Back",
@@ -665,6 +678,14 @@ const translations = {
       autonomy: "Autonomy",
       noise: "Quietness",
     },
+    welcome: {
+      title: "Don't waste money on the wrong gear.",
+      subtitle:
+        "I tested hundreds of products on YouTube to find out what really works.",
+      promise: "Answer 4 questions and find the perfect setup for your level.",
+      cta: "FIND MY SETUP",
+      trust: "100% Independent Tests",
+    },
   },
 };
 
@@ -680,6 +701,7 @@ const StarRating = ({ value }) => (
 
 const ProductWizard = () => {
   const [lang, setLang] = useState("it");
+  const [started, setStarted] = useState(false);
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState({});
   const [results, setResults] = useState(null);
@@ -933,6 +955,7 @@ const ProductWizard = () => {
     setStep(0);
     setAnswers({});
     setResults(null);
+    setStarted(false); // Torna alla home
   };
   const q = results ? null : getQuestion();
 
@@ -949,144 +972,186 @@ const ProductWizard = () => {
   return (
     <div className="wizard-card">
       <div className="wizard-header">
-        <div className="profile-container">
-          <img src={LOGO_URL} alt="Sport Al Centro" className="profile-pic" />
-        </div>
         <div className="header-row">
-          <div>
-            <h2>{t.app_title}</h2>
-            <span className="subtitle">{t.subtitle}</span>
+          {/* Se l'utente non ha iniziato, mostriamo un header semplificato o vuoto, 
+              altrimenti quello standard con la foto piccola se vuoi */}
+          <div className="profile-container-small">
+            {/* Opzionale: puoi rimettere qui la foto piccola se vuoi che si veda durante il quiz */}
           </div>
-          <button
-            className="lang-btn"
-            onClick={() => setLang(lang === "it" ? "en" : "it")}
-          >
-            {lang === "it" ? "🇬🇧" : "🇮🇹"}
-          </button>
+          <div style={{ marginLeft: "auto" }}>
+            <button
+              className="lang-btn"
+              onClick={() => setLang(lang === "it" ? "en" : "it")}
+            >
+              {lang === "it" ? "🇬🇧" : "🇮🇹"}
+            </button>
+          </div>
         </div>
       </div>
 
       <div className="wizard-body">
-        {!results && q ? (
-          <div className="fade-in">
-            <div className="progress-bar">
-              <div style={{ width: `${progress}%` }}></div>
+        {!started ? (
+          /* === WELCOME SCREEN === */
+          <div className="welcome-container fade-in">
+            <div className="profile-hero">
+              <img src={LOGO_URL} alt="Michele" className="profile-pic-large" />
+              <span className="trust-badge">✅ {t.welcome.trust}</span>
             </div>
-            <h3 className="question">{q.text}</h3>
-            <div className="options-grid">
-              {q.opts.map((o) => (
-                <button
-                  key={o.v}
-                  className="option-btn"
-                  onClick={() => handleSelect(q.key, o.v)}
-                >
-                  {o.i && <span className="opt-icon">{o.i}</span>} {o.l}
-                </button>
-              ))}
+
+            <h1 className="hero-title">{t.welcome.title}</h1>
+            <p className="hero-subtitle">{t.welcome.subtitle}</p>
+
+            {/* === NUOVO BLOCCO VIDEO YOUTUBE === */}
+            <div className="welcome-video-container">
+              <iframe
+                src={`https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?rel=0&modestbranding=1`}
+                title="YouTube video player"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
             </div>
-            {step > 0 && (
-              <button className="back-link" onClick={() => setStep(step - 1)}>
-                {t.back}
-              </button>
-            )}
+            {/* ================================== */}
+
+            <div className="promise-box">
+              <p>{t.welcome.promise}</p>
+            </div>
+
+            <button
+              className="start-btn pulse-animation"
+              onClick={() => setStarted(true)}
+            >
+              {t.welcome.cta} 👉
+            </button>
           </div>
         ) : (
-          results && (
-            <div className="fade-in">
-              {results.length === 0 ? (
-                <div className="fallback-msg">
-                  <h3>{t.contact_title}</h3>
-                  <p>{t.contact_desc}</p>
-                  <button className="restart-link" onClick={restart}>
-                    {t.restart}
-                  </button>
+          /* === WIZARD E RISULTATI === */
+          <>
+            {!results && q ? (
+              <div className="fade-in">
+                <div className="progress-bar">
+                  <div style={{ width: `${progress}%` }}></div>
                 </div>
-              ) : (
-                <div className="result-list-container">
-                  <p className="result-intro">{t.result_msg}</p>
+                <h3 className="question">{q.text}</h3>
+                <div className="options-grid">
+                  {q.opts.map((o) => (
+                    <button
+                      key={o.v}
+                      className="option-btn"
+                      onClick={() => handleSelect(q.key, o.v)}
+                    >
+                      {o.i && <span className="opt-icon">{o.i}</span>} {o.l}
+                    </button>
+                  ))}
+                </div>
+                {/* Il tasto indietro ora torna alla home se siamo al primo step */}
+                <button
+                  className="back-link"
+                  onClick={() =>
+                    step === 0 ? setStarted(false) : setStep(step - 1)
+                  }
+                >
+                  {t.back}
+                </button>
+              </div>
+            ) : (
+              results && (
+                <div className="fade-in">
+                  {results.length === 0 ? (
+                    <div className="fallback-msg">
+                      <h3>{t.contact_title}</h3>
+                      <p>{t.contact_desc}</p>
+                      <button className="restart-link" onClick={restart}>
+                        {t.restart}
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="result-list-container">
+                      <p className="result-intro">{t.result_msg}</p>
 
-                  {results.map((result) => (
-                    <div key={result.id} className="result-item">
-                      <div className="image-container">
-                        {result.youtube_link && (
-                          <a
-                            href={result.youtube_link}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="yt-badge"
-                            title={t.youtube_badge}
-                          >
-                            <svg viewBox="0 0 576 512" className="yt-svg">
-                              <path
-                                fill="currentColor"
-                                d="M549.7 124.1c-6.3-23.7-24.8-42.3-48.3-48.6C458.8 64 288 64 288 64S117.2 64 74.6 75.5c-23.5 6.3-42 24.9-48.3 48.6-11.4 42.9-11.4 132.3-11.4 132.3s0 89.4 11.4 132.3c6.3 23.7 24.8 41.5 48.3 47.8C117.2 448 288 448 288 448s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zm-317.5 213.5V175.2l142.7 81.2-142.7 81.2z"
-                              />
-                            </svg>
-                            {t.youtube_badge}
-                          </a>
-                        )}
-                        <img src={result.image} alt={result.title} />
-                      </div>
+                      {results.map((result) => (
+                        <div key={result.id} className="result-item">
+                          <div className="image-container">
+                            {result.youtube_link && (
+                              <a
+                                href={result.youtube_link}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="yt-badge"
+                                title={t.youtube_badge}
+                              >
+                                <svg viewBox="0 0 576 512" className="yt-svg">
+                                  <path
+                                    fill="currentColor"
+                                    d="M549.7 124.1c-6.3-23.7-24.8-42.3-48.3-48.6C458.8 64 288 64 288 64S117.2 64 74.6 75.5c-23.5 6.3-42 24.9-48.3 48.6-11.4 42.9-11.4 132.3-11.4 132.3s0 89.4 11.4 132.3c6.3 23.7 24.8 41.5 48.3 47.8C117.2 448 288 448 288 448s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zm-317.5 213.5V175.2l142.7 81.2-142.7 81.2z"
+                                  />
+                                </svg>
+                                {t.youtube_badge}
+                              </a>
+                            )}
+                            <img src={result.image} alt={result.title} />
+                          </div>
 
-                      <div className="card-content">
-                        <h2 className="prod-title">{result.title}</h2>
-                        <p className="prod-desc">
-                          {result[`description_${lang}`] ||
-                            result.description_it}
-                        </p>
+                          <div className="card-content">
+                            <h2 className="prod-title">{result.title}</h2>
+                            <p className="prod-desc">
+                              {result[`description_${lang}`] ||
+                                result.description_it}
+                            </p>
 
-                        <div className="specs-clean">
-                          {/* Visualizza i Rating (Stelle) se presenti */}
-                          {result.ratings &&
-                            Object.entries(result.ratings).map(([k, v]) => (
-                              <div key={k} className="spec-row">
-                                <span>{t.labels[k] || k}</span>
-                                <StarRating value={v} />
+                            <div className="specs-clean">
+                              {/* Visualizza i Rating (Stelle) se presenti */}
+                              {result.ratings &&
+                                Object.entries(result.ratings).map(([k, v]) => (
+                                  <div key={k} className="spec-row">
+                                    <span>{t.labels[k] || k}</span>
+                                    <StarRating value={v} />
+                                  </div>
+                                ))}
+                              {/* Visualizza le Specs testuali se presenti */}
+                              {result.specs &&
+                                Object.entries(result.specs).map(([k, v]) => (
+                                  <div key={k} className="spec-row">
+                                    <span>{k}</span>
+                                    <strong>{v}</strong>
+                                  </div>
+                                ))}
+                              <div className="spec-row highlight">
+                                <span>{t.price}</span>
+                                <strong>€{result.price}</strong>
                               </div>
-                            ))}
-                          {/* Visualizza le Specs testuali se presenti */}
-                          {result.specs &&
-                            Object.entries(result.specs).map(([k, v]) => (
-                              <div key={k} className="spec-row">
-                                <span>{k}</span>
-                                <strong>{v}</strong>
+                            </div>
+
+                            {result.discount && (
+                              <div className="discount-clean">
+                                {t.discount_label}:{" "}
+                                <strong>{result.discount}</strong>
                               </div>
-                            ))}
-                          <div className="spec-row highlight">
-                            <span>{t.price}</span>
-                            <strong>€{result.price}</strong>
+                            )}
+
+                            <a
+                              href={result.link}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="main-cta"
+                            >
+                              {t.buy_btn}
+                            </a>
                           </div>
                         </div>
+                      ))}
 
-                        {result.discount && (
-                          <div className="discount-clean">
-                            {t.discount_label}:{" "}
-                            <strong>{result.discount}</strong>
-                          </div>
-                        )}
-
-                        <a
-                          href={result.link}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="main-cta"
-                        >
-                          {t.buy_btn}
-                        </a>
-                      </div>
+                      <button
+                        className="restart-link sticky-bottom"
+                        onClick={restart}
+                      >
+                        {t.restart}
+                      </button>
                     </div>
-                  ))}
-
-                  <button
-                    className="restart-link sticky-bottom"
-                    onClick={restart}
-                  >
-                    {t.restart}
-                  </button>
+                  )}
                 </div>
-              )}
-            </div>
-          )
+              )
+            )}
+          </>
         )}
       </div>
 
