@@ -647,3 +647,162 @@
   border-color: #007bff;
   box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
 }
+
+/* ... CSS precedenti ... */
+
+/* --- RIMOZIONE VECCHI STILI SCONTO (Opzionale, per pulizia) --- */
+.discount-clean {
+  display: none;
+}
+.spec-row.highlight {
+  display: none;
+}
+/* (Nascondiamo il prezzo e sconto vecchi se presenti ancora nel JSX, 
+   ma meglio rimuoverli direttamente dal JSX come vedremo sotto) */
+
+/* --- NUOVA "DEAL ZONE" (La parte che converte) --- */
+.deal-zone {
+  background: #f8fbff; /* Sfondo leggermente azzurro per evidenziare l'azione */
+  border-top: 1px dashed #dbe9f5;
+  padding: 20px;
+  text-align: center;
+  margin-top: auto; /* Spinge in basso se usato con flex column */
+}
+
+/* Prezzo */
+.deal-price {
+  font-size: 1.1rem;
+  color: #666;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.deal-price strong {
+  font-size: 1.8rem;
+  color: #222;
+  font-weight: 800;
+}
+
+/* Il Coupon Stile "Biglietto" */
+.coupon-ticket {
+  background: #ffffff;
+  border: 2px dashed #ffc107; /* Bordo giallo/oro tratteggiato */
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 20px;
+  position: relative;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+  transition: transform 0.2s;
+  cursor: pointer; /* Fa capire che è importante */
+}
+
+.coupon-ticket:hover {
+  transform: scale(1.02);
+  background: #fffdf5;
+}
+
+.coupon-label {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #999;
+  margin-bottom: 5px;
+  font-weight: 700;
+}
+
+.coupon-code {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: #d39e00; /* Oro scuro leggibile */
+  letter-spacing: 1px;
+  font-family: monospace; /* Font stile codice */
+}
+
+.coupon-hint {
+  font-size: 0.8rem;
+  color: #28a745;
+  margin-top: 5px;
+  font-weight: 600;
+}
+
+/* --- PULSANTE "VEDI OFFERTA" 2.0 (Responsive & High Conversion) --- */
+
+.deal-cta {
+  display: flex; /* Usa flex per centrare perfettamente testo e icone */
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 16px 20px; /* Padding bilanciato */
+
+  /* Gradiente più vivace e moderno */
+  background: linear-gradient(to bottom, #2ecc71 0%, #27ae60 100%);
+
+  color: white;
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-radius: 12px; /* Meno arrotondato (più "tech") o 50px per pillola */
+
+  /* Bordo inferiore per effetto 3D */
+  border-bottom: 4px solid #1e8449;
+
+  box-shadow: 0 4px 10px rgba(46, 204, 113, 0.3);
+  transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+  position: relative;
+  overflow: hidden; /* Necessario per l'effetto luce */
+}
+
+/* Effetto Hover: Il pulsante si "schiaccia" leggermente come uno vero */
+.deal-cta:hover {
+  transform: translateY(2px); /* Scende di 2px */
+  border-bottom: 2px solid #1e8449; /* Il bordo si riduce */
+  box-shadow: 0 2px 5px rgba(46, 204, 113, 0.4);
+  background: linear-gradient(
+    to bottom,
+    #2ecc71 0%,
+    #2ecc71 100%
+  ); /* Diventa leggermente più chiaro */
+}
+
+.deal-cta:active {
+  transform: translateY(4px); /* Scende del tutto al click */
+  border-bottom: 0px solid #1e8449;
+  box-shadow: none;
+}
+
+/* --- MEDIA QUERY PER MOBILE (Responsiveness) --- */
+@media (max-width: 480px) {
+  .deal-cta {
+    font-size: 1rem; /* Testo leggermente più piccolo su mobile */
+    padding: 14px; /* Meno ingombro verticale */
+    width: 100%; /* Assicura che riempia la card */
+  }
+}
+
+/* --- EFFETTO LUCE "SHINE" (Opzionale ma molto figo) --- */
+.deal-cta::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transition: 0.5s;
+}
+
+.deal-cta:hover::after {
+  left: 100%; /* La luce attraversa il pulsante da sinistra a destra */
+}
